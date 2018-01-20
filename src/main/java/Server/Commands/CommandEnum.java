@@ -45,6 +45,11 @@ public enum CommandEnum {
         {
             this.command = new BookReturnedCommand();
         }
+    },
+    ONEDAYORDER {
+        {
+            this.command = new OneDayOrderCommand();
+        }
     }
     ;
     ActionCommand command;

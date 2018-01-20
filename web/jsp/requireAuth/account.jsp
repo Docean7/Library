@@ -20,7 +20,7 @@
 </head>
 <body>
 <ul class="nav nav-tabs">
-    <li role="presentation"><a href="catalog.jsp">Catalog</a></li>
+    <li role="presentation"><a href="<c:url value="/jsp/requireAuth/catalog.jsp"/>">Catalog</a></li>
     <li role="presentation" class="active"><a href="#">Profile</a></li>
 
 </ul>

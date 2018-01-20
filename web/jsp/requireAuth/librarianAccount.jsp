@@ -20,16 +20,25 @@
 </head>
 <body>
 <ul class="nav nav-tabs">
-    <li role="presentation"><a href="catalog.jsp">Catalog</a></li>
+    <li role="presentation"><a href="<c:url value="/jsp/requireAuth/catalog.jsp"/>">Catalog</a></li>
     <li role="presentation" class="active"><a href="#">Profile</a></li>
 
 </ul>
+<br/>
 Hello, ${sessionScope.firstname} ${sessionScope.lastname}
 <br/>
-Your login is ${sessionScope.login}
 <br/>
-Telephone number : ${sessionScope.telnumber}
-Email : ${sessionScope.email}
+<form action="/controller" method="post">
+    <div class="form-inline">
+        <input type="hidden" name="command" value="OneDayOrder"/>
+        <input name="login" id="login" placeholder="User's login" maxlength="25" class="form-control" type="text" required>
+        <input name="book_id" placeholder="Book id" type="number" maxlength="8" class="form-control" required>
+        <button type="submit" class="btn">Add 1-day order </button>
+    </div>
+
+</form>
+
+<br/>
 <c:forEach var="order" items="${pageContext.request.session.getAttribute('orders')}">
 
    <p>${order} <c:if test="${not empty order.expirationDate}"> Expiration date: ${order.expirationDate}</c:if> </p>
@@ -41,10 +50,12 @@ Email : ${sessionScope.email}
                 <button type="submit" class="btn <c:if test="${order.delivered == true}">disabled</c:if>"> Book Delivered </button>
             </form>
         </div>
+
         <div class="col-md-2">
             <form action="/controller" method="post">
                 <input type="hidden" name="command" value="BookReturned"/>
                 <input type="hidden" name="order_id" value="${order.id}"/>
+                <input type="hidden" name="book_id" value="${order.bookID}"/>
                 <button type="submit" class="btn <c:if test="${order.delivered == false}">disabled</c:if>"> Book Returned </button>
             </form>
         </div>

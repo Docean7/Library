@@ -8,14 +8,14 @@ import db.Entity.Order;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-public class BookReturnedCommand implements ActionCommand{
+public class OneDayOrderCommand implements ActionCommand {
     @Override
     public String execute(RequestContent requestContent, HttpServletResponse response) {
         String page = ConfigurationManager.getProperty("path.page.librarian.acc");
-        int orderId = Integer.parseInt(String.valueOf(requestContent.getParameter("order_id")));
-        DBManager dbManager = DBManager.getInstance();
+        String login = requestContent.getParameter("login");
         int bookId = Integer.parseInt(requestContent.getParameter("book_id"));
-        dbManager.deleteOrder(orderId, bookId);
+        DBManager dbManager = DBManager.getInstance();
+        dbManager.addOneDayOrder(login,bookId);
         List<Order> orders = dbManager.getAllOrders();
         requestContent.addSessionAttribute("orders", orders);
         return page;

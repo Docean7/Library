@@ -8,9 +8,11 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+<%@ taglib prefix="ctg" uri="customtags" %>
 
 <fmt:setBundle basename="resources.pagecontent" var="rb"/>
+<c:set var="bookList" value="${sessionScope.get('bookList')}"/>
+<c:set var="user_id" value="${sessionScope.get('userId')}"/>
 <html>
 <head>
     <title>Catalog</title>
@@ -75,7 +77,7 @@
     <input type="hidden" name="command" value="AddBookToUser"/>
     <input type="hidden" name="user_id" value="${sessionScope.userId}"/>
     <input type="hidden" name="book_id" value="${book.id}"/>
-    <button type="submit" class="btn">Add book</button>
+    <button type="submit" class="btn <c:if test="${ctg:checkPresence(bookList, book.id)}">disabled</c:if>">Add book</button>
 </form> <p>
     <c:set var="pages" value="${sessionScope.pages}"/>
     </c:forEach>

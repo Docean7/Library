@@ -1,9 +1,17 @@
 package db.Entity;
 
 public class Book  {
-    private int id, year;
+    private int id, year, quantity;
     private String title, author, genre, category, publisher, country, expiration;
     private double rating;
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 
     @Override
     public boolean equals(Object o) {

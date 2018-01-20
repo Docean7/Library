@@ -23,8 +23,8 @@ public class DBManager {
     private static final String FIND_USER_ID_BY_LOGIN = "SELECT * FROM users WHERE login=?";
     private static final String FIND_USER_BY_LOGIN = "SELECT * FROM users WHERE login=?";
     private static final String INSERT_BOOK_TO_CATALOG = "INSERT INTO catalog " +
-            "(title, author, genre, category, publisher, country, year, rating) VALUES" +
-            " (?, ?, ?, ?, ?, ?, ?, ?)";
+            "(title, author, genre, category, publisher, country, year, rating, quantity) VALUES" +
+            " (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String GET_CATALOG = "SELECT * FROM catalog";
     private static final String FIND_BOOK_BY_ID = "SELECT * FROM catalog WHERE id=?";
     private static final String FIND_BY_EMAIL = "SELECT * FROM users WHERE email=?";
@@ -33,6 +33,8 @@ public class DBManager {
     private static final String UPDATE_BOOK_STATUS = "UPDATE books_to_users SET delivered=?, expiration_date=? WHERE order_id=?";
     private static final String GET_ALL_ORDERS = "SELECT * FROM books_to_users";
     private static final String DELETE_ORDER = "DELETE  FROM books_to_users WHERE order_id=?";
+    private static final String ADD_DAY_ORDER = "INSERT INTO books_to_users (user_id, book_id, delivered, expiration_date) VALUES (?,?,TRUE ,?)" ;
+    private static final String SET_NEW_QUANTITY = "UPDATE catalog SET quantity=? WHERE id=?" ;
 
 
     private static DBManager instance;
@@ -96,6 +98,7 @@ public class DBManager {
             pstm.setString(6, book.getCountry());
             pstm.setInt(7, book.getYear());
             pstm.setDouble(8, book.getRating());
+            pstm.setInt(9, book.getQuantity());
             pstm.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -181,6 +184,7 @@ public class DBManager {
                 book.setCountry(rs.getString(7));
                 book.setYear(rs.getInt(8));
                 book.setRating(rs.getDouble(9));
+                book.setQuantity(rs.getInt(10));
                 return book;
             }
         } catch (SQLException e) {
@@ -190,16 +194,41 @@ public class DBManager {
     }
 
     public boolean addBookToUser(int bookID, int userID) {
-        try (Connection conn = ds.getConnection()){
+        Connection conn = null;
+        try {
+            conn = ds.getConnection();
+            conn.setAutoCommit(false);
+            //adding book
             PreparedStatement pstm = conn.prepareStatement(ADD_BOOK_TO_USER);
             pstm.setInt(1,bookID);
             pstm.setInt(2,userID);
-
+            pstm.executeUpdate();
+            //updating quantity
+            pstm = conn.prepareStatement(SET_NEW_QUANTITY);
+            int quantity = getBookById(bookID).getQuantity() - 1;
+            pstm.setInt(1,quantity);
+            pstm.setInt(2,bookID);
             pstm.executeUpdate();
 
+            conn.commit();
         } catch (SQLException e) {
-//            e.printStackTrace();
-            return false;
+            if(conn != null){
+                try {
+                    conn.rollback();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
+
+        } finally {
+            //conn.setAutoCommit(true);
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return true;
     }
@@ -263,13 +292,80 @@ public class DBManager {
         return orders;
     }
 
-    public void deleteOrder(int orderId) {
-        try(Connection conn = ds.getConnection()){
+    public void deleteOrder(int orderId, int bookId) {
+        Connection conn = null;
+        try{
+            conn = ds.getConnection();
+            conn.setAutoCommit(false);
             PreparedStatement pstm = conn.prepareStatement(DELETE_ORDER);
             pstm.setInt(1, orderId);
             pstm.executeUpdate();
+
+            pstm = conn.prepareStatement(SET_NEW_QUANTITY);
+            int quantity = getBookById(bookId).getQuantity()+1;
+            pstm.setInt(1, quantity);
+            pstm.setInt(2,bookId);
+            pstm.executeUpdate();
+
+            conn.commit();
         } catch (SQLException e){
-            e.printStackTrace();
+           // e.printStackTrace();
+            if(conn != null){
+                try {
+                    conn.setAutoCommit(true);
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        } finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
+    }
+
+    public boolean addOneDayOrder(String login, int bookId){
+        Connection conn = null;
+        try {
+            conn = ds.getConnection();
+            conn.setAutoCommit(false);
+            PreparedStatement pstm = conn.prepareStatement(ADD_DAY_ORDER);
+            int userId = getUserByLogin(login).getId();
+            String expirationDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            pstm.setInt(1,userId);
+            pstm.setInt(2,bookId);
+            pstm.setString(3,expirationDate);
+            pstm.executeUpdate();
+
+            pstm = conn.prepareStatement(SET_NEW_QUANTITY);
+            int quantity = getBookById(bookId).getQuantity() - 1;
+            pstm.setInt(1,quantity);
+            pstm.setInt(2,bookId);
+            pstm.executeUpdate();
+
+            conn.commit();
+        }  catch (SQLException e){
+            // e.printStackTrace();
+            if(conn != null){
+                try {
+                    conn.setAutoCommit(true);
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        } finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return true;
     }
 }
