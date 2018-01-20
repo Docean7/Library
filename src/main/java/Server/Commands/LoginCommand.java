@@ -48,8 +48,9 @@ public class LoginCommand implements ActionCommand {
                 int userType = user.getUserType();
                 requestContent.addSessionAttribute("userType", userType);
                 System.out.println("User type is " + userType);
+
                 if(userType == UserTypeEnum.LIBRARIAN.value()){
-                    System.out.println("Getting all orders");
+                    System.out.println("Adding orders to session");
                     List<Order> orders = dbManager.getAllOrders();
                     requestContent.addSessionAttribute("orders", orders);
                 }

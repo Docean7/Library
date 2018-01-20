@@ -1,16 +1,16 @@
 package db.Entity;
 
 public class Order {
-    private int orderID, bookID, userID;
+    private int id, bookID, userID;
     private String expirationDate;
     private boolean delivered;
 
-    public int getOrderID() {
-        return orderID;
+    public int getId() {
+        return id;
     }
 
-    public void setOrderID(int orderID) {
-        this.orderID = orderID;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getBookID() {
@@ -47,7 +47,7 @@ public class Order {
 
     @Override
     public String toString() {
-        return "orderID=" + orderID +
+        return "id=" + id +
                 ", bookID=" + bookID +
                 ", userID=" + userID +
                 ", expirationDate='" + expirationDate + '\'' +

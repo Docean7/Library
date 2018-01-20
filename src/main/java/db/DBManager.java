@@ -244,7 +244,7 @@ public class DBManager {
             ResultSet rs = stmt.executeQuery(GET_ALL_ORDERS);
             while (rs.next()){
                 Order order = new Order();
-                order.setOrderID(rs.getInt(1));
+                order.setId(rs.getInt(1));
                 order.setUserID(rs.getInt(2));
                 order.setBookID(rs.getInt(3));
                 order.setDelivered(rs.getBoolean(4));

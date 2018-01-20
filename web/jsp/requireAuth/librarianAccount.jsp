@@ -31,7 +31,13 @@ Your login is ${sessionScope.login}
 Telephone number : ${sessionScope.telnumber}
 Email : ${sessionScope.email}
 <c:forEach var="order" items="${pageContext.request.session.getAttribute('orders')}">
+
    <p>${order} </p>
+    <form action="/controller" method="post">
+        <input type="hidden" name="command" value="BookDelivered"/>
+        <input type="hidden" name="order_id" value="${order.id}"/>
+        <button type="submit" class="btn <c:if test="${order.delivered == true}">disabled</c:if>"> Book Delivered </button>
+    </form>
 </c:forEach>
 </body>
 </html>
