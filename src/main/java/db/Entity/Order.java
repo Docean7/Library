@@ -50,7 +50,6 @@ public class Order {
         return "id=" + id +
                 ", bookID=" + bookID +
                 ", userID=" + userID +
-                ", expirationDate='" + expirationDate + '\'' +
                 ", delivered=" + delivered;
     }
 }

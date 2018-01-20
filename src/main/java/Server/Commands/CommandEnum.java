@@ -40,6 +40,11 @@ public enum CommandEnum {
         {
             this.command = new BookDeliveredCommand();
         }
+    },
+    BOOKRETURNED {
+        {
+            this.command = new BookReturnedCommand();
+        }
     }
     ;
     ActionCommand command;

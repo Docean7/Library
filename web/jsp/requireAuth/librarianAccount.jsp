@@ -32,12 +32,26 @@ Telephone number : ${sessionScope.telnumber}
 Email : ${sessionScope.email}
 <c:forEach var="order" items="${pageContext.request.session.getAttribute('orders')}">
 
-   <p>${order} </p>
-    <form action="/controller" method="post">
-        <input type="hidden" name="command" value="BookDelivered"/>
-        <input type="hidden" name="order_id" value="${order.id}"/>
-        <button type="submit" class="btn <c:if test="${order.delivered == true}">disabled</c:if>"> Book Delivered </button>
-    </form>
+   <p>${order} <c:if test="${not empty order.expirationDate}"> Expiration date: ${order.expirationDate}</c:if> </p>
+    <div class="row">
+        <div class="col-md-2">
+            <form action="/controller" method="post">
+                <input type="hidden" name="command" value="BookDelivered"/>
+                <input type="hidden" name="order_id" value="${order.id}"/>
+                <button type="submit" class="btn <c:if test="${order.delivered == true}">disabled</c:if>"> Book Delivered </button>
+            </form>
+        </div>
+        <div class="col-md-2">
+            <form action="/controller" method="post">
+                <input type="hidden" name="command" value="BookReturned"/>
+                <input type="hidden" name="order_id" value="${order.id}"/>
+                <button type="submit" class="btn <c:if test="${order.delivered == false}">disabled</c:if>"> Book Returned </button>
+            </form>
+        </div>
+
+    </div>
+
+
 </c:forEach>
 </body>
 </html>

@@ -10,6 +10,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,8 +30,9 @@ public class DBManager {
     private static final String FIND_BY_EMAIL = "SELECT * FROM users WHERE email=?";
     private static final String ADD_BOOK_TO_USER = "INSERT INTO books_to_users (book_id, user_id) VALUES(?,?)";
     private static final String GET_BOOKS_FOR_USER = "SELECT book_id, expiration_date FROM books_to_users WHERE user_id=?";
-    private static final String UPDATE_BOOK_STATUS = "UPDATE books_to_users SET delivered=? WHERE order_id=?";
+    private static final String UPDATE_BOOK_STATUS = "UPDATE books_to_users SET delivered=?, expiration_date=? WHERE order_id=?";
     private static final String GET_ALL_ORDERS = "SELECT * FROM books_to_users";
+    private static final String DELETE_ORDER = "DELETE  FROM books_to_users WHERE order_id=?";
 
 
     private static DBManager instance;
@@ -191,9 +194,7 @@ public class DBManager {
             PreparedStatement pstm = conn.prepareStatement(ADD_BOOK_TO_USER);
             pstm.setInt(1,bookID);
             pstm.setInt(2,userID);
-            //String date = LocalDate.now().plusDays(30).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-            //pstm.setString(3,date);
             pstm.executeUpdate();
 
         } catch (SQLException e) {
@@ -230,8 +231,11 @@ public class DBManager {
         try(Connection conn = ds.getConnection()){
             PreparedStatement pstm = conn.prepareStatement(UPDATE_BOOK_STATUS);
             pstm.setBoolean(1,status);
-            pstm.setInt(2, orderId);
+            String date = LocalDate.now().plusDays(30).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            pstm.setString(2,date);
+            pstm.setInt(3, orderId);
             pstm.executeUpdate();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -257,5 +261,15 @@ public class DBManager {
             e.printStackTrace();
         }
         return orders;
+    }
+
+    public void deleteOrder(int orderId) {
+        try(Connection conn = ds.getConnection()){
+            PreparedStatement pstm = conn.prepareStatement(DELETE_ORDER);
+            pstm.setInt(1, orderId);
+            pstm.executeUpdate();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 }
