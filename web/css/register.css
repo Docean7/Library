@@ -1,0 +1,6 @@
+#success_message{ display: none;}
+.s-error {
+    font-size: 14px;
+    color: #f26d62;
+    margin-top: 5px;
+}
