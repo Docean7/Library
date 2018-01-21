@@ -57,17 +57,13 @@ public class RequestContent {
             if(request.getSession(false)!= null) {
                 //Добавляем атрибуты в сессию
                 Set<String> sessionkeySet = sessionAttributes.keySet();
-                Iterator<String> skeyIterator = sessionkeySet.iterator();
-                while (skeyIterator.hasNext()) {
-                    String key = skeyIterator.next();
-                    System.out.println("Inserting session attribute " + key);
+                for (String key : sessionkeySet) {
+                    //System.out.println("Inserting session attribute " + key);
                     session.setAttribute(key, sessionAttributes.get(key));
                 }
                 //добавляем атрибуты в реквест
                 Set<String> reqKeySet = requestAttributes.keySet();
-                Iterator<String> rKeyIterator = reqKeySet.iterator();
-                while (rKeyIterator.hasNext()) {
-                    String key = rKeyIterator.next();
+                for (String key : reqKeySet) {
                     //System.out.println("Inserting request attribute" + key);
                     request.setAttribute(key, requestAttributes.get(key));
                 }
@@ -98,7 +94,7 @@ public class RequestContent {
     }
 
     public void addSessionAttribute(String name, Object object) {
-        System.out.println(name + " " + object);
+
         sessionAttributes.put(name, object);
     }
 

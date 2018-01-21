@@ -38,7 +38,7 @@ public class Controller extends HttpServlet {
 * вызов реализованного метода execute() и передача параметров
 * классу-обработчику конкретной команды
 */
-        page = command.execute(requestContent, response);
+        page = command.execute(requestContent);
         requestContent.insertAttributes(request);
 
 // метод возвращает страницу ответа

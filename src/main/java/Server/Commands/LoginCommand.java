@@ -7,7 +7,6 @@ import db.Entity.Order;
 import db.Entity.User;
 import db.UserTypeEnum;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class LoginCommand implements ActionCommand {
@@ -21,7 +20,7 @@ public class LoginCommand implements ActionCommand {
     private static final int WRONG_PASSWORD = 2;
 
     @Override
-    public String execute(RequestContent requestContent, HttpServletResponse response) {
+    public String execute(RequestContent requestContent) {
         String page = ConfigurationManager.getProperty("path.page.login");
 // извлечение из запроса логина и пароля
         String login = requestContent.getParameter(PARAM_NAME_LOGIN);

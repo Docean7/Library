@@ -10,13 +10,12 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 
 public class SearchBookCommand implements ActionCommand {
     public static final String QUERY = "query";
     @Override
-    public String execute(RequestContent requestContent, HttpServletResponse response) {
+    public String execute(RequestContent requestContent) {
         IndexSearcher searcher = null;
         String page = null;
 

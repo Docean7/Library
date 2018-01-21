@@ -4,11 +4,9 @@ import Server.Managers.ConfigurationManager;
 import Server.Managers.RequestContent;
 import db.DBManager;
 
-import javax.servlet.http.HttpServletResponse;
-
 public class AddBookToUserCommand implements ActionCommand{
     @Override
-    public String execute(RequestContent requestContent, HttpServletResponse response) {
+    public String execute(RequestContent requestContent) {
         String page = ConfigurationManager.getProperty("path.page.catalog");
         DBManager dbManager = DBManager.getInstance();
 

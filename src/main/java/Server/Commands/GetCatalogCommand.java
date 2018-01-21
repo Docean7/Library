@@ -5,7 +5,6 @@ import Server.Managers.RequestContent;
 import db.DBManager;
 import db.Entity.Book;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.Comparator;
 import java.util.List;
 
@@ -22,7 +21,7 @@ public class GetCatalogCommand implements ActionCommand {
     }
 
     @Override
-    public String execute(RequestContent requestContent, HttpServletResponse response) {
+    public String execute(RequestContent requestContent) {
         if(!checkedPages){
             requestContent.addSessionAttribute("pages", pages);
         }

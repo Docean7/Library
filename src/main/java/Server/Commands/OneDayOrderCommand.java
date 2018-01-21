@@ -5,12 +5,11 @@ import Server.Managers.RequestContent;
 import db.DBManager;
 import db.Entity.Order;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class OneDayOrderCommand implements ActionCommand {
     @Override
-    public String execute(RequestContent requestContent, HttpServletResponse response) {
+    public String execute(RequestContent requestContent) {
         String page = ConfigurationManager.getProperty("path.page.librarian.acc");
         String login = requestContent.getParameter("login");
         int bookId = Integer.parseInt(requestContent.getParameter("book_id"));

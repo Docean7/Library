@@ -35,6 +35,7 @@ public class DBManager {
     private static final String DELETE_ORDER = "DELETE  FROM books_to_users WHERE order_id=?";
     private static final String ADD_DAY_ORDER = "INSERT INTO books_to_users (user_id, book_id, delivered, expiration_date) VALUES (?,?,TRUE ,?)" ;
     private static final String SET_NEW_QUANTITY = "UPDATE catalog SET quantity=? WHERE id=?" ;
+    private static final String DELETE_BOOK_BY_ID = "DELETE FROM catalog WHERE id=?";
 
 
     private static DBManager instance;
@@ -102,8 +103,9 @@ public class DBManager {
             pstm.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
-        return false;
+        return true;
     }
 
     public List<Book> getCatalog() {
@@ -219,7 +221,7 @@ public class DBManager {
                     e1.printStackTrace();
                 }
             }
-
+            return false;
         } finally {
             //conn.setAutoCommit(true);
             if(conn != null) {
@@ -357,6 +359,7 @@ public class DBManager {
                     e1.printStackTrace();
                 }
             }
+            return false;
         } finally {
             if(conn != null) {
                 try {
@@ -367,5 +370,16 @@ public class DBManager {
             }
         }
         return true;
+    }
+
+    public void deleteBook(int book_id) {
+        try(Connection conn = ds.getConnection()){
+            PreparedStatement pstm = conn.prepareStatement(DELETE_BOOK_BY_ID);
+            pstm.setInt(1,book_id);
+            pstm.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

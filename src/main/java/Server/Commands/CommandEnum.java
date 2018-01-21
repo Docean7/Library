@@ -21,11 +21,6 @@ public enum CommandEnum {
             this.command = new GetCatalogCommand();
         }
     },
-    INDEXBOOK {
-        {
-            this.command = new IndexBookCommand();
-        }
-    },
     SEARCHBOOK {
         {
             this.command = new SearchBookCommand();
@@ -49,6 +44,16 @@ public enum CommandEnum {
     ONEDAYORDER {
         {
             this.command = new OneDayOrderCommand();
+        }
+    },
+    ADDBOOK {
+        {
+            this.command = new AddBookToCatalogCommand();
+        }
+    },
+    DELETEBOOK {
+        {
+            this.command = new DeleteBookCommand();
         }
     }
     ;

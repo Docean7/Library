@@ -28,7 +28,10 @@
     <c:set var="userType" value="${sessionScope.userType}"/>
     <c:choose>
         <c:when test="${userType == 2}">
-            <li role="presentation"><a href="<c:url value="/jsp/requireAuth/librarianAccount.jsp"/> ">Profile</a></li>
+            <li role="presentation"><a href="<c:url value="/jsp/requireAuth/librarian/librarianAccount.jsp"/> ">Profile</a></li>
+        </c:when>
+        <c:when test="${userType == 3}">
+            <li role="presentation"><a href="<c:url value="/jsp/requireAuth/admin/adminAccount.jsp"/> ">Profile</a></li>
         </c:when>
         <c:otherwise>
             <li role="presentation"><a href="<c:url value="/jsp/requireAuth/account.jsp"/> ">Profile</a></li>
