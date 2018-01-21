@@ -24,6 +24,12 @@
     <li role="presentation" class="active"><a href="#">Profile</a></li>
 
 </ul>
+<form action="/controller" method="post">
+    <input type="hidden" name="command" value="Logout">
+    <button type="submit" class="btn btn-danger">Logout</button>
+</form>
+
+
 Hello, ${sessionScope.firstname} ${sessionScope.lastname}
 <br/>
 Your login is ${sessionScope.login}

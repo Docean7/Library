@@ -1,18 +1,18 @@
 package Server.Commands;
 
+import Server.Managers.ConfigurationManager;
 import Server.Managers.RequestContent;
 import db.DBManager;
 import db.Entity.User;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 public class RegistrationCommand implements ActionCommand {
     @Override
     public String execute(RequestContent requestContent, HttpServletResponse response) {
         String login = requestContent.getParameter("user_name");
         String email = requestContent.getParameter("email");
-        String page = "/register.jsp";
+        String page = ConfigurationManager.getProperty("path.page.login");
 
         boolean loginIsAvailable = RegistrationLogic.isAvailableLogin(login);
         boolean emailIsAvailable = RegistrationLogic.isAvailableEmail(email);
@@ -31,20 +31,12 @@ public class RegistrationCommand implements ActionCommand {
         if (!loginIsAvailable){
             System.out.println("Login is already taken");
             requestContent.addSessionAttribute("errorLogin", "This username is taken");
-            try {
-                response.sendError(400);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            requestContent.setError(true);
         }
         if(!emailIsAvailable){
             System.out.println("Email has been already used");
             requestContent.addSessionAttribute("errorEmail", "Email is already in use");
-            try {
-                response.sendError(400);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            requestContent.setError(true);
         }
         if(loginIsAvailable && emailIsAvailable) {
             User user = new User();

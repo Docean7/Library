@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 
@@ -29,7 +30,8 @@ public class Controller extends HttpServlet {
         String page = null;
 // определение команды, пришедшей из JSP
         ActionFactory client = new ActionFactory();
-        RequestContent requestContent = new RequestContent();
+        HttpSession session = request.getSession();
+        RequestContent requestContent = new RequestContent(session, response);
         requestContent.extractValues(request);
         ActionCommand command = client.defineCommand(requestContent);
 /*
@@ -38,8 +40,9 @@ public class Controller extends HttpServlet {
 */
         page = command.execute(requestContent, response);
         requestContent.insertAttributes(request);
+
 // метод возвращает страницу ответа
-// page = null; // поэксперементировать!
+
         if (page != null) {
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
 //// вызов страницы ответа на запрос

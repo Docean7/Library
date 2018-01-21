@@ -77,8 +77,10 @@ public class GetCatalogCommand implements ActionCommand {
                 System.out.println("Sorting !!!");
             }
         }
+
+        //тут баг !!!
         if(allCatalog.size() >= p*PAGESIZE-1) {
-            curCatalog = allCatalog.subList((p - 1) * PAGESIZE, p * PAGESIZE - 1);
+            curCatalog = allCatalog.subList((p - 1) * PAGESIZE, p * PAGESIZE);
         }
         else if(allCatalog.size() >= (p-1)*PAGESIZE){
             curCatalog = allCatalog.subList((p - 1) * PAGESIZE, allCatalog.size());

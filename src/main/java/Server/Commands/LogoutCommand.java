@@ -1,5 +1,6 @@
 package Server.Commands;
 
+import Server.Managers.ConfigurationManager;
 import Server.Managers.RequestContent;
 
 import javax.servlet.http.HttpServletResponse;
@@ -7,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 public class LogoutCommand implements ActionCommand {
     @Override
     public String execute(RequestContent requestContent, HttpServletResponse response) {
-//        requestContent.getSession().invalidate();
-        return null;
+        requestContent.deleteSession();
+        return ConfigurationManager.getProperty("path.page.index");
     }
 }

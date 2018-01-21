@@ -65,7 +65,7 @@
                                pattern="^[_A-z0-9]{1,}$" maxlength="25"  value="${sessionScope.checklogin}" required>
                     </div>
                     <div class="s-error">${sessionScope.errorLogin}</div>
-                    <%--<c:remove var="errorLogin" scope="session"/>--%>
+                    <c:remove var="errorLogin" scope="session"/>
                 </div>
             </div>
 
@@ -92,7 +92,6 @@
                         <input name="confirm_password" id="confirm_password" placeholder="Confirm Password"
                                class="form-control" type="password" pattern="^[_A-z0-9]{1,}$" maxlength="15" minlength="4" required>
                     </div>
-
                 </div>
             </div>
 
@@ -107,7 +106,7 @@
                             required>
                     </div>
                     <div class="s-error"> ${sessionScope.errorEmail}</div>
-                    <%--<c:remove var="errorEmail" scope="session"/>--%>
+                    <c:remove var="errorEmail" scope="session"/>
                 </div>
             </div>
 

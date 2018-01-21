@@ -1,4 +1,4 @@
-$('#contact-form').submit(function (e) {
+$('#submit').click(function (e) {
 
     e.preventDefault();
     var pass = $('#password');
@@ -26,6 +26,7 @@ $('#contact-form').submit(function (e) {
                 document.location.href = "/jsp/login.jsp"
             },
             error: function () {
+                console.log("Error");
                 document.location.href = "/jsp/register.jsp"
             }
 

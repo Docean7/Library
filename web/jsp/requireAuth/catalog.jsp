@@ -36,6 +36,10 @@
     </c:choose>
 
 </ul>
+<form action="/controller" method="post">
+    <input type="hidden" name="command" value="Logout">
+    <button type="submit" class="btn btn-danger">Logout</button>
+</form>
 <form method="post" name="frm" action="/controller">
     <div class="container">
         <div class="row">
