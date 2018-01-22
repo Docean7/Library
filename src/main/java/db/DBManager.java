@@ -38,6 +38,7 @@ public class DBManager {
     private static final String DELETE_BOOK_BY_ID = "DELETE FROM catalog WHERE id=?";
     private static final String UPDATE_BOOK_INFO = "UPDATE catalog SET title=?, author=?, genre=?," +
             " category=?, publisher=?, country=?, year=?, rating=?, quantity=? WHERE id=?";
+    private static final String UPDATE_USER_TYPE = "UPDATE users SET user_type=? WHERE BINARY login=?";
 
 
     private static DBManager instance;
@@ -399,6 +400,17 @@ public class DBManager {
             pstm.setDouble(8,book.getRating());
             pstm.setInt(9,book.getQuantity());
             pstm.setInt(10,book.getId());
+            pstm.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void changeUserType(int type, String login){
+        try(Connection conn = ds.getConnection()){
+            PreparedStatement pstm = conn.prepareStatement(UPDATE_USER_TYPE);
+            pstm.setInt(1,type);
+            pstm.setString(2,login);
             pstm.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

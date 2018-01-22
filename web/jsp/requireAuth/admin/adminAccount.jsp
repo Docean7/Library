@@ -116,5 +116,43 @@
         <button type="submit" class="btn btn-default">Edit</button>
     </form>
 </c:if>
+<h2>Add librarian</h2>
+<form action="/controller" method="post">
+    <input type="hidden" name="command" value="ChangeType">
+    <input type="hidden" name="type" value="2">
+    <div class="form-group">
+        <input name="username" class="form-control" placeholder="Username" required>
+    </div>
+   <button type="submit" class="btn btn-default">Make librarian</button>
+</form>
+<h2>Delete librarian</h2>
+<form action="/controller" method="post">
+    <input type="hidden" name="command" value="ChangeType">
+    <input type="hidden" name="type" value="0">
+    <div class="form-group">
+        <input name="username" class="form-control" placeholder="Username" required>
+    </div>
+    <button type="submit" class="btn btn-default">Delete librarian</button>
+</form>
+<h2>Ban user</h2>
+<form action="/controller" method="post">
+    <input type="hidden" name="command" value="ChangeType">
+    <input type="hidden" name="type" value="4">
+    <div class="form-group">
+        <input name="username" class="form-control" placeholder="Username" required>
+    </div>
+    <button type="submit" class="btn btn-default">Ban user</button>
+</form>
+
+<h2>Unban user</h2>
+<form action="/controller" method="post">
+    <input type="hidden" name="command" value="ChangeType">
+    <input type="hidden" name="type" value="0">
+    <div class="form-group">
+        <input name="username" class="form-control" placeholder="Username" required>
+    </div>
+    <button type="submit" class="btn btn-default">Ban user</button>
+</form>
+
 </body>
 </html>

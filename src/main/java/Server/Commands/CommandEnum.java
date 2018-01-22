@@ -65,7 +65,14 @@ public enum CommandEnum {
         {
             this.command = new FindEditBookCommand();
         }
+    },
+
+    CHANGETYPE {
+        {
+            this.command = new ChangeTypeCommand();
+        }
     }
+
     ;
     ActionCommand command;
     public ActionCommand getCurrentCommand() {

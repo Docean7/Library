@@ -7,6 +7,7 @@ public class User {
     //FIELDS
     private int id;
     private String firstName, lastName, login, password, email, telNumber;
+
     private int userType;
     private List<Book> bookList;
 

@@ -2,7 +2,7 @@ package db;
 
 public enum UserTypeEnum {
 
-    REGISTERED_USER(0), UNREGISTERED_USER(1), LIBRARIAN(2), ADMIN(3);
+    REGISTERED_USER(0), UNREGISTERED_USER(1), LIBRARIAN(2), ADMIN(3), BANNED_USER(4);
 
     int type;
 

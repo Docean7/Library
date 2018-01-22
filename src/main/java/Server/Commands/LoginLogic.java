@@ -3,6 +3,7 @@ package Server.Commands;
 import db.BCrypt;
 import db.DBManager;
 import db.Entity.User;
+import db.UserTypeEnum;
 
 public class LoginLogic {
     private static final int ALL_GOOD = 0;
@@ -10,9 +11,9 @@ public class LoginLogic {
     private static final int WRONG_PASSWORD = 2;
 
     public static int checkLogin(String login, String password) {
-        DBManager dbManager = DBManager.getInstance();
-        User user = dbManager.getUserByLogin(login);
-        if (user == null) {
+
+        User user = DBManager.getInstance().getUserByLogin(login);
+        if (user == null || user.getUserType() == UserTypeEnum.BANNED_USER.value()) {
             return WRONG_LOGIN;
         } else if(!BCrypt.checkpw(password, user.getPassword())){
                 return WRONG_PASSWORD;
