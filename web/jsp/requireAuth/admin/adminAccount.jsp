@@ -16,14 +16,21 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 </head>
 <body>
-<ul class="nav nav-tabs">
-    <li role="presentation"><a href="<c:url value="/jsp/requireAuth/catalog.jsp"/>">Catalog</a></li>
-    <li role="presentation" class="active"><a href="#">Profile</a></li>
-</ul>
-<form action="/controller" method="post">
-    <input type="hidden" name="command"  value="Logout">
-    <button type="submit" class="btn btn-danger">Logout</button>
-</form>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <ul class="nav navbar-nav">
+            <li role="presentation"><a href="<c:url value="/jsp/requireAuth/catalog.jsp"/>">Catalog</a></li>
+            <li role="presentation" class="active"><a href="#">Profile</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <form action="/controller" method="post">
+                <input type="hidden" name="command" value="Logout">
+                <button type="submit" class="btn btn-danger navbar-btn">Logout</button>
+            </form>
+        </ul>
+    </div>
+</nav>
+
 <h2>Add book to catalog</h2>
 <%--сделать валидацию форм и дизайн--%>
 <form action="/controller" method="post">

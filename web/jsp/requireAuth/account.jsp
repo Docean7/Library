@@ -18,33 +18,70 @@
           integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <link rel="stylesheet" href="<c:url value="../../css/account.css"/> "/>
 </head>
-<body>
-<ul class="nav nav-tabs">
-    <li role="presentation"><a href="<c:url value="/jsp/requireAuth/catalog.jsp"/>">Catalog</a></li>
-    <li role="presentation" class="active"><a href="#">Profile</a></li>
+<>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <ul class="nav navbar-nav">
+            <li role="presentation"><a href="<c:url value="/jsp/requireAuth/catalog.jsp"/>">Catalog</a></li>
+            <li role="presentation" class="active"><a href="#">Profile</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <form action="/controller" method="post">
+                <input type="hidden" name="command" value="Logout">
+                <button type="submit" class="btn btn-danger navbar-btn">Logout</button>
+            </form>
+        </ul>
+    </div>
+</nav>
 
-</ul>
-<form action="/controller" method="post">
-    <input type="hidden" name="command" value="Logout">
-    <button type="submit" class="btn btn-danger">Logout</button>
-</form>
 
-
-Hello, ${sessionScope.firstname} ${sessionScope.lastname}
+<h2>Hello, ${sessionScope.firstname} ${sessionScope.lastname}</h2>
 <br/>
-Your login is ${sessionScope.login}
-<br/>
-Telephone number : ${sessionScope.telnumber}
-Email : ${sessionScope.email}
-<c:forEach var="book" items="${sessionScope.get('bookList')}">
-    <h3>${book.id}</h3>
-    <c:out value="${book}"/>
-    <c:if test="${not empty book.expiration}">
-        <c:set var="fineAmount" value="${ctg:calculateForfeit(book.expiration)}"/>
-        <c:out value="expires on ${book.expiration}"/> <c:if test="${fineAmount > 0}"><p class="s-error">Fine
-        of ${fineAmount} hryvnas</p></c:if>
-    </c:if>
+<p><strong>Username: ${sessionScope.login}</strong></p>
+<p><strong>Telephone number: ${sessionScope.telnumber}</strong></p>
+<p><strong> Email : ${sessionScope.email}</strong></p>
 
-</c:forEach>
+
+<table class="table table-striped">
+    <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Genre</th>
+        <th>Category</th>
+        <th>Publisher</th>
+        <th>Country</th>
+        <th>Year</th>
+        <th>Rating</th>
+        <th>Expiration</th>
+    </tr>
+    <c:forEach var="book" items="${sessionScope.get('bookList')}">
+        <tr>
+            <td>${book.title}</td>
+            <td>${book.author}</td>
+            <td>${book.genre}</td>
+            <td>${book.category}</td>
+            <td>${book.publisher}</td>
+            <td>${book.country}</td>
+            <td>${book.year}</td>
+            <td>${book.rating}</td>
+            <td>
+                <c:choose>
+                    <c:when test="${not empty book.expiration}">
+                        <c:set var="fineAmount" value="${ctg:calculateForfeit(book.expiration)}"/>
+                        expires on ${book.expiration} <c:if test="${fineAmount > 0}"><p class="s-error">Fine
+                        of ${fineAmount} hryvnas</p></c:if>
+                    </c:when>
+                    <c:otherwise>
+                        Not delivered
+                    </c:otherwise>
+                </c:choose>
+
+            </td>
+        </tr>
+    </c:forEach>
+</table>
+
+
+
 </body>
 </html>

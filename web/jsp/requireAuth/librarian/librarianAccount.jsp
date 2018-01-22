@@ -19,16 +19,22 @@
     <link rel="stylesheet" href="<c:url value="../../../css/account.css"/> "/>
 </head>
 <body>
-<ul class="nav nav-tabs">
-    <li role="presentation"><a href="<c:url value="/jsp/requireAuth/catalog.jsp"/>">Catalog</a></li>
-    <li role="presentation" class="active"><a href="#">Profile</a></li>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <ul class="nav navbar-nav">
+            <li role="presentation"><a href="<c:url value="/jsp/requireAuth/catalog.jsp"/>">Catalog</a></li>
+            <li role="presentation" class="active"><a href="#">Profile</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <form action="/controller" method="post">
+                <input type="hidden" name="command" value="Logout">
+                <button type="submit" class="btn btn-danger navbar-btn">Logout</button>
+            </form>
+        </ul>
+    </div>
+</nav>
 
-</ul>
-<form action="/controller" method="post">
-    <input type="hidden" name="command" value="Logout">
-    <button type="submit" class="btn btn-danger">Logout</button>
-</form>
-<br/>
+
 Hello, ${sessionScope.firstname} ${sessionScope.lastname}
 <br/>
 <br/>
