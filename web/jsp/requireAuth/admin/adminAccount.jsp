@@ -10,28 +10,111 @@
 <html>
 <head>
     <title>Admin panel</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 </head>
 <body>
+<ul class="nav nav-tabs">
+    <li role="presentation"><a href="<c:url value="/jsp/requireAuth/catalog.jsp"/>">Catalog</a></li>
+    <li role="presentation" class="active"><a href="#">Profile</a></li>
+</ul>
+<form action="/controller" method="post">
+    <input type="hidden" name="command"  value="Logout">
+    <button type="submit" class="btn btn-danger">Logout</button>
+</form>
 <h2>Add book to catalog</h2>
 <%--сделать валидацию форм и дизайн--%>
 <form action="/controller" method="post">
+
     <input type="hidden" name="command" value="addBook">
-    <input name="title" placeholder="Book title" required>
-    <input name="author" placeholder="Author" required>
-    <input name="genre" placeholder="Genre" required>
-    <input name="category" placeholder="Category" required>
-    <input name="publisher" placeholder="Publisher" required>
-    <input name="country" placeholder="Country" required>
-    <input name="year" placeholder="Year" required>
-    <input name="rating" placeholder="Rating" required>
-    <input name="quantity" placeholder="Quantity" required>
-    <button type="submit">Add book</button>
+
+    <div class="form-group">
+        <input name="title" placeholder="Book title" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <input name="author" placeholder="Author" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <input name="genre" placeholder="Genre" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <input name="category" placeholder="Category" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <input name="publisher" placeholder="Publisher" class="form-control" required>
+    </div>
+
+    <div class="form-group">
+        <input name="country" placeholder="Country" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <input name="year" placeholder="Year" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <input name="rating" placeholder="Rating" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <input name="quantity" placeholder="Quantity" class="form-control" required>
+    </div>
+
+    <button type="submit" class="btn btn-default">Add book</button>
 </form>
 <h2>Delete book by id</h2>
 <form action="/controller" method="post">
-    <input type="hidden" name="command" value="deleteBook">
-    <input name="book_id" placeholder="Book id">
-    <button type="submit">Delete book</button>
+    <input type="hidden" name="command"  value="deleteBook">
+    <div class="form-group">
+        <input name="book_id" placeholder="Book id" class="form-control" required>
+    </div>
+
+    <button type="submit" class="btn btn-default">Delete book</button>
 </form>
+
+<h2>Edit book</h2>
+<form action="/controller" method="post">
+    <input type="hidden" name="command" value="FindBook">
+    <div class="form-group">
+        <input name="book_id" placeholder="Book id" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-default">Find</button>
+</form>
+<c:set var="rBook" value="${requestScope.get('returnedBook')}"/>
+<c:if test="${not empty rBook}">
+
+    <form action="/controller" method="post">
+        <input type="hidden" name="command" value="EditBook">
+        <input type="hidden" name="book_id" value="${rBook.id}">
+        <div class="form-group">
+            <input name="title" value="${rBook.title}" class="form-control">
+        </div>
+        <div class="form-group">
+            <input name="author"  value="${rBook.author}" class="form-control">
+        </div>
+        <div class="form-group">
+            <input name="genre"  value="${rBook.genre}" class="form-control">
+        </div>
+        <div class="form-group">
+            <input name="category"  value="${rBook.category}" class="form-control">
+        </div>
+        <div class="form-group">
+            <input name="publisher"  value="${rBook.publisher}" class="form-control">
+        </div>
+        <div class="form-group">
+            <input name="country"  value="${rBook.country}" class="form-control">
+        </div>
+        <div class="form-group">
+            <input name="year"  value="${rBook.year}" class="form-control">
+        </div>
+        <div class="form-group">
+            <input name="rating"  value="${rBook.rating}" class="form-control">
+        </div>
+        <div class="form-group">
+            <input name="quantity"  value="${rBook.quantity}" class="form-control">
+        </div>
+
+        <button type="submit" class="btn btn-default">Edit</button>
+    </form>
+</c:if>
 </body>
 </html>

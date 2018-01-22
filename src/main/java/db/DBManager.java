@@ -21,7 +21,7 @@ public class DBManager {
     private static final String INSERT_USER = "INSERT INTO users " +
             "(firstname, lastname, login, password, email, telnumber) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String FIND_USER_ID_BY_LOGIN = "SELECT * FROM users WHERE login=?";
-    private static final String FIND_USER_BY_LOGIN = "SELECT * FROM users WHERE login=?";
+    private static final String FIND_USER_BY_LOGIN = "SELECT * FROM users WHERE BINARY login=?";
     private static final String INSERT_BOOK_TO_CATALOG = "INSERT INTO catalog " +
             "(title, author, genre, category, publisher, country, year, rating, quantity) VALUES" +
             " (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -36,6 +36,8 @@ public class DBManager {
     private static final String ADD_DAY_ORDER = "INSERT INTO books_to_users (user_id, book_id, delivered, expiration_date) VALUES (?,?,TRUE ,?)" ;
     private static final String SET_NEW_QUANTITY = "UPDATE catalog SET quantity=? WHERE id=?" ;
     private static final String DELETE_BOOK_BY_ID = "DELETE FROM catalog WHERE id=?";
+    private static final String UPDATE_BOOK_INFO = "UPDATE catalog SET title=?, author=?, genre=?," +
+            " category=?, publisher=?, country=?, year=?, rating=?, quantity=? WHERE id=?";
 
 
     private static DBManager instance;
@@ -378,6 +380,26 @@ public class DBManager {
             pstm.setInt(1,book_id);
             pstm.executeUpdate();
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateBook(Book book) {
+        System.out.println("Updating " + book);
+        try(Connection conn = ds.getConnection()){
+           PreparedStatement pstm = conn.prepareStatement(UPDATE_BOOK_INFO);
+            pstm.setString(1,book.getTitle());
+            pstm.setString(2,book.getAuthor());
+            pstm.setString(3,book.getGenre());
+            pstm.setString(4,book.getCategory());
+            pstm.setString(5,book.getPublisher());
+            pstm.setString(6,book.getCountry());
+            pstm.setInt(7,book.getYear());
+            pstm.setDouble(8,book.getRating());
+            pstm.setInt(9,book.getQuantity());
+            pstm.setInt(10,book.getId());
+            pstm.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }

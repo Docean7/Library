@@ -25,7 +25,7 @@ public class LibrarianFilter implements Filter {
             System.out.println("redirecting");
             httpResponse.sendRedirect(httpRequest.getContextPath() + catalogPath);
         }
-
+        chain.doFilter(req, resp);
     }
 
     public void init(FilterConfig config) throws ServletException {

@@ -36,7 +36,7 @@ Your login is ${sessionScope.login}
 <br/>
 Telephone number : ${sessionScope.telnumber}
 Email : ${sessionScope.email}
-<c:forEach var="book" items="${pageContext.request.session.getAttribute('bookList')}">
+<c:forEach var="book" items="${sessionScope.get('bookList')}">
     <h3>${book.id}</h3>
     <c:out value="${book}"/>
     <c:if test="${not empty book.expiration}">

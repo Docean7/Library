@@ -78,7 +78,7 @@
     </button>
 </form>
 
-<c:forEach var="book" items="${pageContext.request.session.getAttribute('catalog')}">
+<c:forEach var="book" items="${sessionScope.get('catalog')}">
 <c:out value="${book}"/>
 <form action="/controller" method="post">
     <input type="hidden" name="command" value="AddBookToUser"/>

@@ -55,6 +55,16 @@ public enum CommandEnum {
         {
             this.command = new DeleteBookCommand();
         }
+    },
+    EDITBOOK {
+        {
+            this.command = new EditBookCommand();
+        }
+    },
+    FINDBOOK {
+        {
+            this.command = new FindEditBookCommand();
+        }
     }
     ;
     ActionCommand command;

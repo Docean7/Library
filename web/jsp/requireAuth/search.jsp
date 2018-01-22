@@ -17,7 +17,8 @@
           integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 </head>
 <body>
-<c:set var="books" value="${pageContext.request.session.getAttribute('foundBooks')}"/>
+
+<c:set var="books" value="${sessionScope.get('foundBooks')}"/>
 <c:choose>
     <c:when test="${not empty books }">
         <h1>Found:</h1><br/>

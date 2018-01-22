@@ -23,7 +23,7 @@ public class SearchBookCommand implements ActionCommand {
             searcher = ReadIndex.createSearcher();
             //Search by Title
             String query = requestContent.getParameter(QUERY);
-            System.out.println(query  );
+            System.out.println(query);
             TopDocs foundBookDocs = ReadIndex.searchByTitle(query, searcher);
 
             System.out.println("Total Results :: " + foundBookDocs.totalHits);
