@@ -49,30 +49,51 @@ Hello, ${sessionScope.firstname} ${sessionScope.lastname}
 </form>
 
 <br/>
-<c:forEach var="order" items="${pageContext.request.session.getAttribute('orders')}">
+<table class="table table-striped">
+    <tr>
+        <th>Book id</th>
+        <th>Book Title</th>
+        <th>User id</th>
+        <th>Username</th>
+        <th>Delivery/expiration status</th>
+        <th>Expiration Date</th>
+        <th>Mark delivered</th>
+        <th>Mark returned</th>
+    </tr>
+    <c:forEach var="order" items="${sessionScope.get('orders')}">
+        <tr>
+            <td>${order.bookID}</td>
+            <td>${order.bookTitle}</td>
+            <td>${order.userID}</td>
+            <td>${order.username}</td>
+            <td>
+                <c:choose>
+                    <c:when test="${order.delivered}">
+                        ${order.expirationDate}
+                    </c:when>
+                    <c:otherwise>Not delivered</c:otherwise>
+                </c:choose>
+            </td>
+            <td></td>
 
-   <p>${order} <c:if test="${not empty order.expirationDate}"> Expiration date: ${order.expirationDate}</c:if> </p>
-    <div class="row">
-        <div class="col-md-2">
-            <form action="/controller" method="post">
-                <input type="hidden" name="command" value="BookDelivered"/>
-                <input type="hidden" name="order_id" value="${order.id}"/>
-                <button type="submit" class="btn <c:if test="${order.delivered == true}">disabled</c:if>"> Book Delivered </button>
-            </form>
-        </div>
+            <td>
+                <form action="/controller" method="post">
+                    <input type="hidden" name="command" value="BookDelivered"/>
+                    <input type="hidden" name="order_id" value="${order.id}"/>
+                    <button type="submit" class="btn <c:if test="${order.delivered == true}">disabled</c:if>"> Book Delivered </button>
+                </form>
+            </td>
+            <td>
+                <form action="/controller" method="post">
+                    <input type="hidden" name="command" value="BookReturned"/>
+                    <input type="hidden" name="order_id" value="${order.id}"/>
+                    <input type="hidden" name="book_id" value="${order.bookID}"/>
+                    <button type="submit" class="btn <c:if test="${order.delivered == false}">disabled</c:if>"> Book Returned </button>
+                </form>
+            </td>
+        </tr>
+    </c:forEach>
+</table>
 
-        <div class="col-md-2">
-            <form action="/controller" method="post">
-                <input type="hidden" name="command" value="BookReturned"/>
-                <input type="hidden" name="order_id" value="${order.id}"/>
-                <input type="hidden" name="book_id" value="${order.bookID}"/>
-                <button type="submit" class="btn <c:if test="${order.delivered == false}">disabled</c:if>"> Book Returned </button>
-            </form>
-        </div>
-
-    </div>
-
-
-</c:forEach>
 </body>
 </html>

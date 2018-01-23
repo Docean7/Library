@@ -102,7 +102,7 @@
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                        <input name="email" id="email" maxlength="25" placeholder="E-Mail Address" class="form-control" value="${sessionScope.checkemail}" type="email"
+                        <input name="email" id="email" maxlength="32" placeholder="E-Mail Address" class="form-control" value="${sessionScope.checkemail}" type="email"
                             required>
                     </div>
                     <div class="s-error"> ${sessionScope.errorEmail}</div>

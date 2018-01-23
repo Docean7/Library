@@ -31,7 +31,8 @@ public class DBManager {
     private static final String ADD_BOOK_TO_USER = "INSERT INTO books_to_users (book_id, user_id) VALUES(?,?)";
     private static final String GET_BOOKS_FOR_USER = "SELECT book_id, expiration_date FROM books_to_users WHERE user_id=?";
     private static final String UPDATE_BOOK_STATUS = "UPDATE books_to_users SET delivered=?, expiration_date=? WHERE order_id=?";
-    private static final String GET_ALL_ORDERS = "SELECT * FROM books_to_users";
+    private static final String GET_ALL_ORDERS = "SELECT order_id, user_id, book_id, delivered, expiration_date, title, login " +
+            "FROM books_to_users JOIN catalog ON books_to_users.book_id = catalog.id JOIN users ON books_to_users.user_id = users.id";
     private static final String DELETE_ORDER = "DELETE  FROM books_to_users WHERE order_id=?";
     private static final String ADD_DAY_ORDER = "INSERT INTO books_to_users (user_id, book_id, delivered, expiration_date) VALUES (?,?,TRUE ,?)" ;
     private static final String SET_NEW_QUANTITY = "UPDATE catalog SET quantity=? WHERE id=?" ;
@@ -289,6 +290,8 @@ public class DBManager {
                 if(rs.getString(5) != null) {
                     order.setExpirationDate(rs.getString(5));
                 }
+                order.setBookTitle(rs.getString(6));
+                order.setUsername(rs.getString(7));
                 orders.add(order);
             }
         } catch (SQLException e) {

@@ -18,7 +18,7 @@
           integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <link rel="stylesheet" href="<c:url value="../../css/account.css"/> "/>
 </head>
-<>
+<body>
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <ul class="nav navbar-nav">
@@ -40,7 +40,6 @@
 <p><strong>Username: ${sessionScope.login}</strong></p>
 <p><strong>Telephone number: ${sessionScope.telnumber}</strong></p>
 <p><strong> Email : ${sessionScope.email}</strong></p>
-
 
 <table class="table table-striped">
     <tr>
@@ -80,8 +79,5 @@
         </tr>
     </c:forEach>
 </table>
-
-
-
 </body>
 </html>

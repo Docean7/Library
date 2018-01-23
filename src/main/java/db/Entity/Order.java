@@ -2,8 +2,24 @@ package db.Entity;
 
 public class Order {
     private int id, bookID, userID;
-    private String expirationDate;
+    private String expirationDate, username, bookTitle;
     private boolean delivered;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getBookTitle() {
+        return bookTitle;
+    }
+
+    public void setBookTitle(String bookTitle) {
+        this.bookTitle = bookTitle;
+    }
 
     public int getId() {
         return id;
@@ -47,9 +63,10 @@ public class Order {
 
     @Override
     public String toString() {
-        return "id=" + id +
-                ", bookID=" + bookID +
+        return "BookID=" + bookID +
+                ", username: " + username +
                 ", userID=" + userID +
+                ", book:" + bookTitle +
                 ", delivered=" + delivered;
     }
 }
