@@ -36,9 +36,9 @@ public enum CommandEnum {
             this.command = new BookDeliveredCommand();
         }
     },
-    BOOKRETURNED {
+    DELETEORDER {
         {
-            this.command = new BookReturnedCommand();
+            this.command = new DeleteOrderCommand();
         }
     },
     ONEDAYORDER {

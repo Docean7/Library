@@ -16,7 +16,7 @@
 <html>
 <head>
     <title>Catalog</title>
-    <link rel="stylesheet" type="text/css" href="<c:url value="../../css/catalog.css"/>">
+    <link rel="stylesheet" type="text/css" href="<c:url value="/css/catalog.css"/>">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
@@ -58,7 +58,7 @@
                 <div id="custom-search-input">
                     <div class="input-group col-md-12">
                         <input type="text" class="form-control input-lg" name="query"
-                               placeholder="Search by title or author"/>
+                               placeholder="Search by title or author" required/>
                         <span class="input-group-btn">
                             <input type="hidden" name="command" value="searchbook"/>
                         <button class="btn btn-info btn-lg" type="submit">
@@ -67,6 +67,7 @@
                     </span>
                     </div>
                 </div>
+                <div class="s-error">${requestScope.searchError}</div>
             </div>
         </div>
     </div>

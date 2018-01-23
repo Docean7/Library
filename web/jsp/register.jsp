@@ -1,4 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
   Created by IntelliJ IDEA.
   User: Денис
@@ -37,7 +39,7 @@
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input name="first_name" id="name" placeholder="First Name" class="form-control" value="${sessionScope.firstname}" type="text"  minlength="2" maxlength="25" required>
+                        <input name="first_name" id="name" placeholder="First Name" class="form-control" value="${fn:escapeXml(sessionScope.firstname)}" type="text"  minlength="2" maxlength="25" required>
                     </div>
                 </div>
             </div>
@@ -49,7 +51,7 @@
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input name="last_name" minlength="3" maxlength="25" id="last" placeholder="Last Name" class="form-control" value="${sessionScope.lastname}" type="text" required>
+                        <input name="last_name" minlength="3" maxlength="25" id="last" placeholder="Last Name" class="form-control" value="${fn:escapeXml(sessionScope.lastname)}" type="text" required>
                     </div>
                 </div>
             </div>
@@ -62,7 +64,7 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                         <input name="user_name" id="login" placeholder="Username" class="form-control" type="text"
-                               pattern="^[_A-z0-9]{1,}$" maxlength="25"  value="${sessionScope.checklogin}" required>
+                               pattern="^[_A-z0-9]{1,}$" maxlength="25"  value="${fn:escapeXml(sessionScope.checklogin)}" required>
                     </div>
                     <div class="s-error">${sessionScope.errorLogin}</div>
                     <c:remove var="errorLogin" scope="session"/>
@@ -102,7 +104,7 @@
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                        <input name="email" id="email" maxlength="32" placeholder="E-Mail Address" class="form-control" value="${sessionScope.checkemail}" type="email"
+                        <input name="email" id="email" maxlength="32" placeholder="E-Mail Address" class="form-control" value="${fn:escapeXml(sessionScope.checkemail)}" type="email"
                             required>
                     </div>
                     <div class="s-error"> ${sessionScope.errorEmail}</div>
@@ -118,7 +120,7 @@
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-                        <input name="contact_no" maxlength="12" id="tel" placeholder="Your number" class="form-control" pattern="^[0-9]{7,}$" value="${sessionScope.contact}" type="text" required>
+                        <input name="contact_no" maxlength="12" id="tel" placeholder="Your number" class="form-control" pattern="^[0-9]{7,}$" value="${fn:escapeXml(sessionScope.contact)}" type="text" required>
                     </div>
                 </div>
             </div>

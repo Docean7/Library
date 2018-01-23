@@ -6,6 +6,7 @@ import db.DBManager;
 import db.Entity.Book;
 
 public class FindEditBookCommand implements ActionCommand {
+
     @Override
     public String execute(RequestContent requestContent) {
         String page = ConfigurationManager.getProperty("path.page.admin.acc");

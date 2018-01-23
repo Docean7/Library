@@ -5,6 +5,8 @@ import Server.Managers.ConfigurationManager;
 import Server.Managers.RequestContent;
 import db.DBManager;
 import db.Entity.Book;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.ScoreDoc;
@@ -13,20 +15,21 @@ import org.apache.lucene.search.TopDocs;
 import java.util.ArrayList;
 
 public class SearchBookCommand implements ActionCommand {
+    private static final Logger LOG = LogManager.getLogger(SearchBookCommand.class);
     public static final String QUERY = "query";
     @Override
     public String execute(RequestContent requestContent) {
         IndexSearcher searcher = null;
-        String page = null;
+        String page = ConfigurationManager.getProperty("path.page.catalog");
 
         try {
             searcher = ReadIndex.createSearcher();
             //Search by Title
             String query = requestContent.getParameter(QUERY);
-            System.out.println(query);
+            LOG.info("Searching for" + query);
             TopDocs foundBookDocs = ReadIndex.searchByTitle(query, searcher);
 
-            System.out.println("Total Results :: " + foundBookDocs.totalHits);
+            LOG.info("Total Results :: " + foundBookDocs.totalHits);
             DBManager dbManager = DBManager.getInstance();
             ArrayList<Book> foundBooks = new ArrayList<>();
             for (ScoreDoc sd : foundBookDocs.scoreDocs) {
@@ -51,6 +54,8 @@ public class SearchBookCommand implements ActionCommand {
             page = ConfigurationManager.getProperty("path.page.search");
         } catch (Exception e) {
             e.printStackTrace();
+            requestContent.addRequestAttribute("searchError", "Incorrect input. Try again");
+
         }
         return page;
     }

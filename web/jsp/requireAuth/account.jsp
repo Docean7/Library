@@ -52,6 +52,7 @@
         <th>Year</th>
         <th>Rating</th>
         <th>Expiration</th>
+        <th>Cancel order</th>
     </tr>
     <c:forEach var="book" items="${sessionScope.get('bookList')}">
         <tr>
@@ -74,6 +75,22 @@
                         Not delivered
                     </c:otherwise>
                 </c:choose>
+            </td>
+            <td>
+                <c:choose>
+                   <c:when test="${empty book.expiration}">
+                       <form action="/controller" method="post">
+                           <input type="hidden" name="command" value="DeleteOrder">
+                           <input type="hidden" name="user_id" value="${sessionScope.userId}"/>
+                           <input type="hidden" name="book_id" value="${book.id}"/>
+                           <button class="btn btn-danger">Cancel order</button>
+                       </form>
+                   </c:when>
+                    <c:otherwise>
+                        Already delivered
+                    </c:otherwise>
+                </c:choose>
+
 
             </td>
         </tr>

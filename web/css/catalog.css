@@ -30,3 +30,7 @@
 #custom-search-input .glyphicon-search{
     font-size: 23px;
 }
+.s-error {
+    color: #f26d62;
+    margin-top: 5px;
+}

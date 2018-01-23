@@ -85,8 +85,8 @@ Hello, ${sessionScope.firstname} ${sessionScope.lastname}
             </td>
             <td>
                 <form action="/controller" method="post">
-                    <input type="hidden" name="command" value="BookReturned"/>
-                    <input type="hidden" name="order_id" value="${order.id}"/>
+                    <input type="hidden" name="command" value="DeleteOrder"/>
+                    <input type="hidden" name="user_id" value="${order.userID}"/>
                     <input type="hidden" name="book_id" value="${order.bookID}"/>
                     <button type="submit" class="btn <c:if test="${order.delivered == false}">disabled</c:if>"> Book Returned </button>
                 </form>

@@ -3,6 +3,8 @@ package db;
 import db.Entity.Book;
 import db.Entity.Order;
 import db.Entity.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Resource;
 import javax.naming.Context;
@@ -17,6 +19,7 @@ import java.util.List;
 
 
 public class DBManager {
+    private static final Logger LOG = LogManager.getLogger(DBManager.class);
     //CONSTANTS
     private static final String INSERT_USER = "INSERT INTO users " +
             "(firstname, lastname, login, password, email, telnumber) VALUES (?, ?, ?, ?, ?, ?)";
@@ -33,7 +36,7 @@ public class DBManager {
     private static final String UPDATE_BOOK_STATUS = "UPDATE books_to_users SET delivered=?, expiration_date=? WHERE order_id=?";
     private static final String GET_ALL_ORDERS = "SELECT order_id, user_id, book_id, delivered, expiration_date, title, login " +
             "FROM books_to_users JOIN catalog ON books_to_users.book_id = catalog.id JOIN users ON books_to_users.user_id = users.id";
-    private static final String DELETE_ORDER = "DELETE  FROM books_to_users WHERE order_id=?";
+    private static final String DELETE_ORDER = "DELETE FROM books_to_users WHERE user_id=? AND book_id=?";
     private static final String ADD_DAY_ORDER = "INSERT INTO books_to_users (user_id, book_id, delivered, expiration_date) VALUES (?,?,TRUE ,?)" ;
     private static final String SET_NEW_QUANTITY = "UPDATE catalog SET quantity=? WHERE id=?" ;
     private static final String DELETE_BOOK_BY_ID = "DELETE FROM catalog WHERE id=?";
@@ -80,12 +83,7 @@ public class DBManager {
             pstm.setString(5, user.getEmail());
             pstm.setString(6, user.getTelNumber());
             pstm.executeUpdate();
-            User checkUser = getUserByLogin(login);
-            if (checkUser != null) {
-                user.setId(checkUser.getId());
-            }
 
-            System.out.println(checkUser.getId());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -262,7 +260,7 @@ public class DBManager {
     }
 
 
-    public void UpdateBookDeliveryStatus(boolean status, int orderId) {
+    public void markDelivered(boolean status, int orderId) {
         try(Connection conn = ds.getConnection()){
             PreparedStatement pstm = conn.prepareStatement(UPDATE_BOOK_STATUS);
             pstm.setBoolean(1,status);
@@ -300,13 +298,14 @@ public class DBManager {
         return orders;
     }
 
-    public void deleteOrder(int orderId, int bookId) {
+    public void deleteOrder(int userId, int bookId) {
         Connection conn = null;
         try{
             conn = ds.getConnection();
             conn.setAutoCommit(false);
             PreparedStatement pstm = conn.prepareStatement(DELETE_ORDER);
-            pstm.setInt(1, orderId);
+            pstm.setInt(1, userId);
+            pstm.setInt(2, bookId);
             pstm.executeUpdate();
 
             pstm = conn.prepareStatement(SET_NEW_QUANTITY);

@@ -6,11 +6,14 @@ import db.DBManager;
 import db.Entity.Order;
 import db.Entity.User;
 import db.UserTypeEnum;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
 public class LoginCommand implements ActionCommand {
-
+//    private static final Logger rootLogger = LogManager.getRootLogger();
+    private static final Logger LOG = LogManager.getLogger(LoginCommand.class);
 
     private static final String PARAM_NAME_LOGIN = "login";
     private static final String PARAM_NAME_PASSWORD = "password";
@@ -29,7 +32,7 @@ public class LoginCommand implements ActionCommand {
         int checkCode = LoginLogic.checkLogin(login, pass);
         switch (checkCode) {
             case ALL_GOOD:
-                System.out.println("User " + login + " has signed in");
+                LOG.info("User " + login + " has signed in");
                 page = ConfigurationManager.getProperty("path.servlet.controller") + "?command=getcatalog&sort=name";
 
                 //Заполнение атрибутов сессии для личного кабинета
@@ -46,7 +49,7 @@ public class LoginCommand implements ActionCommand {
                 requestContent.addSessionAttribute("bookList", dbManager.getBooksForUser(id));
                 int userType = user.getUserType();
                 requestContent.addSessionAttribute("userType", userType);
-                System.out.println("User type is " + userType);
+                LOG.info("User type is " + userType);
 
                 if(userType == UserTypeEnum.LIBRARIAN.value()){
                     System.out.println("Adding orders to session");
@@ -57,12 +60,12 @@ public class LoginCommand implements ActionCommand {
                 break;
 
             case WRONG_LOGIN:
-                System.out.println("Wrong login");
+                LOG.warn("Wrong login");
                 requestContent.addRequestAttribute("loginCheck", "User not found");
                 break;
 
             case WRONG_PASSWORD:
-                System.out.println("Wrong password");
+                LOG.warn("Wrong password");
                 requestContent.addRequestAttribute("passwordCheck", "Wrong password");
                 requestContent.addRequestAttribute("cashedLogin", login);
                 break;

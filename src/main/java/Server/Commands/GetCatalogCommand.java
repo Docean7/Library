@@ -4,11 +4,14 @@ import Server.Managers.ConfigurationManager;
 import Server.Managers.RequestContent;
 import db.DBManager;
 import db.Entity.Book;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Comparator;
 import java.util.List;
 
 public class GetCatalogCommand implements ActionCommand {
+    private static final Logger LOG = LogManager.getLogger(GetCatalogCommand.class);
     private static final int PAGESIZE = 6;
     private static List<Book> allCatalog;
     private static String previousSort;
@@ -73,7 +76,7 @@ public class GetCatalogCommand implements ActionCommand {
             if (comp != null && allCatalog != null) {
                 allCatalog.sort(comp);
                 previousSort = sort;
-                System.out.println("Sorting !!!");
+                LOG.debug("Sorting catalog by " + sort);
             }
         }
 
@@ -85,7 +88,7 @@ public class GetCatalogCommand implements ActionCommand {
             curCatalog = allCatalog.subList((p - 1) * PAGESIZE, allCatalog.size());
         }
         else {
-            System.out.println("OUT OF BOUNDS");
+            LOG.error("Out of bounds. Catalog size: " + allCatalog.size() + " Requested: " + (p-1)*PAGESIZE);
         }
 
 

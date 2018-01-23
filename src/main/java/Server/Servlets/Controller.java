@@ -5,6 +5,8 @@ import Server.Commands.ActionFactory;
 import Server.Managers.ConfigurationManager;
 import Server.Managers.MessageManager;
 import Server.Managers.RequestContent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,8 +18,10 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 
+
 @WebServlet(name = "Controller", urlPatterns = "/controller")
 public class Controller extends HttpServlet {
+    private static final Logger LOG = LogManager.getLogger(Controller.class);
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -46,12 +50,14 @@ public class Controller extends HttpServlet {
         if (page != null) {
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
 //// вызов страницы ответа на запрос
+            LOG.debug("Forwarding onto " + page);
             dispatcher.forward(request, response);
         } else {
 // установка страницы c cообщением об ошибке
             page = ConfigurationManager.getProperty("path.page.index");
             request.getSession().setAttribute("nullPage",
                     MessageManager.getProperty("message.nullpage"));
+            LOG.debug("Sending on ERROR PAGE");
             response.sendRedirect(request.getContextPath() + page);
         }
 
