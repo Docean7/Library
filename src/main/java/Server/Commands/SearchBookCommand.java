@@ -27,10 +27,10 @@ public class SearchBookCommand implements ActionCommand {
             searcher = ReadIndex.createSearcher();
             //Search by Title
             String query = requestContent.getParameter(QUERY);
-            LOG.info("Searching for" + query);
+            LOG.debug("Searching for" + query);
             TopDocs foundBookDocs = ReadIndex.searchByTitle(query, searcher);
 
-            LOG.info("Total Results :: " + foundBookDocs.totalHits);
+            LOG.debug("Total Results :: " + foundBookDocs.totalHits);
             DBManager dbManager = DBManager.getInstance();
             ArrayList<Book> foundBooks = new ArrayList<>();
             for (ScoreDoc sd : foundBookDocs.scoreDocs) {
@@ -38,7 +38,7 @@ public class SearchBookCommand implements ActionCommand {
                 Book book = dbManager.getBookById(Integer.parseInt(d.get("id")));
                 if(book != null){
                     foundBooks.add(book);
-                    System.out.println(book);
+                    LOG.debug(book);
                 }
             }
             TopDocs foundByAuthor = ReadIndex.searchByAuthor(query, searcher);
@@ -47,7 +47,7 @@ public class SearchBookCommand implements ActionCommand {
                 Book book = dbManager.getBookById(Integer.parseInt(d.get("id")));
                 if(book != null){
                     foundBooks.add(book);
-                    System.out.println(book);
+                    LOG.debug(book);
                 }
             }
 

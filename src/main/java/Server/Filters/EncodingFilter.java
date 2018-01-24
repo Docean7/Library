@@ -9,8 +9,8 @@ import java.io.IOException;
                 @WebInitParam(name = "encoding", value = "UTF-8", description = "Encoding Param") })
 public class EncodingFilter implements Filter {
     private String code;
-    public void init(FilterConfig fConfig) throws ServletException {
-        code = fConfig.getInitParameter("encoding");
+    public void init(FilterConfig config) throws ServletException {
+        code = config.getInitParameter("encoding");
     }
     public void doFilter(ServletRequest request, ServletResponse response,
                          FilterChain chain) throws IOException, ServletException {

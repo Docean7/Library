@@ -20,7 +20,7 @@ public class DeleteBookCommand implements ActionCommand {
         int bookId = Integer.parseInt(requestContent.getParameter("book_id"));
         DBManager.getInstance().deleteBook(bookId);
         deleteIndex(bookId);
-        LOG.info("Deleting book " + bookId);
+        LOG.debug("Deleting book " + bookId);
         return page;
     }
 
@@ -30,7 +30,7 @@ public class DeleteBookCommand implements ActionCommand {
             QueryParser qp = new QueryParser("id", new StandardAnalyzer());
             Query idQuery = qp.parse(String.valueOf(bookId));
             WriteIndex.createWriter().deleteDocuments(idQuery);
-            LOG.debug("Deleting index of book id" + bookId);
+            LOG.info("Deleting index of book id" + bookId);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -21,4 +21,5 @@ public class Messages {
     public static final String ERR_CHANGE_USER_TYPE = "Cannot change user type";
     public static final String ERR_ROLLBACK = "Cannot rollback in transaction";
     public static final String ERR_CLOSE_CONNECTION = "Cannot close connection";
+    public static final String ERR_GET_ORDER = "Cannot get order";
 }

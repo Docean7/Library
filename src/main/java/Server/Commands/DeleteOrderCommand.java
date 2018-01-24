@@ -18,16 +18,21 @@ public class DeleteOrderCommand implements ActionCommand{
         String page = ConfigurationManager.getProperty("path.page.librarian.acc");
         int userType = Integer.parseInt(String.valueOf(requestContent.getSessionAttribute("userType")));
         int userId = Integer.parseInt(String.valueOf(requestContent.getParameter("user_id")));
-        DBManager dbManager = DBManager.getInstance();
         int bookId = Integer.parseInt(requestContent.getParameter("book_id"));
-        dbManager.deleteOrder(userId, bookId);
-        LOG.info("Deleting order of book " + bookId + " by user " + userId);
-        if(userType == UserTypeEnum.REGISTERED_USER.value()){
-            page = ConfigurationManager.getProperty("path.page.account");
-            requestContent.addSessionAttribute("bookList", dbManager.getBooksForUser(userId));
+        DBManager dbManager = DBManager.getInstance();
+        if(dbManager.isBookDelivered(userId, bookId) && userType == UserTypeEnum.REGISTERED_USER.value()){
+            requestContent.addRequestAttribute("errorMessage", "You have no permission");
+            page = ConfigurationManager.getProperty("path.page.apperror");
+        } else {
+            dbManager.deleteOrder(userId, bookId);
+            LOG.debug("Deleting order of book " + bookId + " by user " + userId);
+            if (userType == UserTypeEnum.REGISTERED_USER.value()) {
+                page = ConfigurationManager.getProperty("path.page.account");
+                requestContent.addSessionAttribute("bookList", dbManager.getBooksForUser(userId));
+            }
+            List<Order> orders = dbManager.getAllOrders();
+            requestContent.addSessionAttribute("orders", orders);
         }
-        List<Order> orders = dbManager.getAllOrders();
-        requestContent.addSessionAttribute("orders", orders);
         return page;
     }
 }

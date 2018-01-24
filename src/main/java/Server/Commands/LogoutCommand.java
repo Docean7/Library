@@ -10,7 +10,7 @@ public class LogoutCommand implements ActionCommand {
     private static final Logger LOG = LogManager.getLogger(LogoutCommand.class);
     @Override
     public String execute(RequestContent requestContent) throws AppException {
-        LOG.info("User " + requestContent.getSessionAttribute("login") + " logged out");
+        LOG.debug("User " + requestContent.getSessionAttribute("login") + " logged out");
         requestContent.deleteSession();
         return ConfigurationManager.getProperty("path.page.index");
     }

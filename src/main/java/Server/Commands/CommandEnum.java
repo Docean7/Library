@@ -72,7 +72,6 @@ public enum CommandEnum {
             this.command = new ChangeTypeCommand();
         }
     }
-
     ;
     ActionCommand command;
     public ActionCommand getCurrentCommand() {

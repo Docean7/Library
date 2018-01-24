@@ -27,7 +27,7 @@ public class EditBookCommand implements ActionCommand{
         book.setQuantity(Integer.parseInt(requestContent.getParameter("quantity")));
 
         DBManager.getInstance().updateBook(book);
-        LOG.info("Updating book " + book);
+        LOG.debug("Updating book " + book);
         return page;
     }
 }

@@ -45,6 +45,7 @@ public class DBManager {
     private static final String UPDATE_BOOK_INFO = "UPDATE catalog SET title=?, author=?, genre=?," +
             " category=?, publisher=?, country=?, year=?, rating=?, quantity=? WHERE id=?";
     private static final String UPDATE_USER_TYPE = "UPDATE users SET user_type=? WHERE BINARY login=?";
+    private static final String GET_ORDER = "SELECT * FROM books_to_users WHERE user_id=? AND book_id=?";
 
 
     private static DBManager instance;
@@ -286,6 +287,22 @@ public class DBManager {
             LOG.error(Messages.ERR_MARK_DELIVERED, e);
             throw new DBException(Messages.ERR_MARK_DELIVERED, e);
         }
+    }
+
+    public boolean isBookDelivered (int userId, int bookId) throws DBException{
+        try(Connection conn = ds.getConnection()){
+            PreparedStatement pstm = conn.prepareStatement(GET_ORDER);
+            pstm.setInt(1,userId);
+            pstm.setInt(2,bookId);
+            ResultSet rs = pstm.executeQuery();
+            if(rs.next()){
+                return rs.getBoolean("delivered");
+            }
+        } catch (SQLException e) {
+            LOG.error(Messages.ERR_MARK_DELIVERED, e);
+            throw new DBException(Messages.ERR_GET_ORDER, e);
+        }
+        return false;
     }
 
     public List<Order> getAllOrders() throws DBException {

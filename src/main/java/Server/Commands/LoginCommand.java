@@ -33,7 +33,7 @@ public class LoginCommand implements ActionCommand {
         int checkCode = LoginLogic.checkLogin(login, pass);
         switch (checkCode) {
             case ALL_GOOD:
-                LOG.info("User " + login + " has signed in");
+                LOG.debug("User " + login + " has signed in");
                 page = ConfigurationManager.getProperty("path.servlet.controller") + "?command=getcatalog&sort=name";
 
                 //Заполнение атрибутов сессии для личного кабинета
@@ -52,7 +52,7 @@ public class LoginCommand implements ActionCommand {
                 requestContent.addSessionAttribute("userType", userType);
 
                 if(userType == UserTypeEnum.LIBRARIAN.value()){
-                    System.out.println("Adding orders to session");
+                    LOG.debug("Adding orders to session");
                     List<Order> orders = dbManager.getAllOrders();
                     requestContent.addSessionAttribute("orders", orders);
                 }

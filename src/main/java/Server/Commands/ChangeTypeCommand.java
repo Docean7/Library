@@ -15,7 +15,7 @@ public class ChangeTypeCommand implements ActionCommand {
         String username = requestContent.getParameter("username");
         int type = Integer.parseInt(requestContent.getParameter("type"));
         DBManager.getInstance().changeUserType(type, username);
-        LOG.info("Changing usertype of " + username + " to " + type);
+        LOG.debug("Changing usertype of " + username + " to " + type);
         return page;
     }
 }

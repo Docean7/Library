@@ -10,11 +10,10 @@ import javax.servlet.annotation.WebInitParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
-@WebFilter(filterName = "SecurityFilter", urlPatterns = {"/jsp/requireAuth/*"}, initParams = { @WebInitParam(name = "INDEX_PATH", value = "/index.jsp")})
-public class SecurityFilter implements Filter {
-    private static final Logger LOG = LogManager.getLogger(SecurityFilter.class);
-    private String indexPath;
+@WebFilter(filterName = "LibrarianFilter", urlPatterns = {"/jsp/requireAuth/admin/*"}, initParams = { @WebInitParam(name = "CATALOG", value = "/jsp/requireAuth/catalog.jsp") })
+public class AdminFilter implements Filter {
+    private static final Logger LOG = LogManager.getLogger(AdminFilter.class);
+    private String catalogPath;
     public void destroy() {
     }
 
@@ -23,18 +22,16 @@ public class SecurityFilter implements Filter {
         HttpServletResponse httpResponse = (HttpServletResponse) resp;
 
         int type = Integer.parseInt(String.valueOf(httpRequest.getSession().getAttribute("userType")));
-        LOG.info("Usertype is " + type);
-        if(UserTypeEnum.UNREGISTERED_USER.value() == type){
-            LOG.info("Not authorised user. Redirecting");
-            httpResponse.sendRedirect(httpRequest.getContextPath() + indexPath);
-        }
-// переход на заданную страницу
 
+        if(UserTypeEnum.ADMIN.value() != type){
+            LOG.info("Usertype is not 'admin'. Redirecting");
+            httpResponse.sendRedirect(httpRequest.getContextPath() + catalogPath);
+        }
         chain.doFilter(req, resp);
     }
 
     public void init(FilterConfig config) throws ServletException {
-        indexPath = config.getInitParameter("INDEX_PATH");
+        catalogPath = config.getInitParameter("CATALOG");
     }
 
 }

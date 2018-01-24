@@ -21,7 +21,7 @@ public class OneDayOrderCommand implements ActionCommand {
         dbManager.addOneDayOrder(login,bookId);
         List<Order> orders = dbManager.getAllOrders();
         requestContent.addSessionAttribute("orders", orders);
-        LOG.info("Creating 1 day order for user " + login + " , book id: " + bookId);
+        LOG.debug("Creating 1 day order for user " + login + " , book id: " + bookId);
         return page;
     }
 }

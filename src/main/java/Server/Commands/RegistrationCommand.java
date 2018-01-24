@@ -50,7 +50,7 @@ public class RegistrationCommand implements ActionCommand {
             user.setTelNumber(requestContent.getParameter("contact_no"));
             DBManager dbManager = DBManager.getInstance();
             dbManager.addNewUser(user);
-            LOG.info("Registered user " + login);
+            LOG.debug("Registered user " + login);
         }
         return page;
     }
