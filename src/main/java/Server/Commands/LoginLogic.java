@@ -4,13 +4,14 @@ import db.BCrypt;
 import db.DBManager;
 import db.Entity.User;
 import db.UserTypeEnum;
+import exception.DBException;
 
 public class LoginLogic {
     private static final int ALL_GOOD = 0;
     private static final int WRONG_LOGIN = 1;
     private static final int WRONG_PASSWORD = 2;
 
-    public static int checkLogin(String login, String password) {
+    public static int checkLogin(String login, String password) throws DBException {
 
         User user = DBManager.getInstance().getUserByLogin(login);
         if (user == null || user.getUserType() == UserTypeEnum.BANNED_USER.value()) {

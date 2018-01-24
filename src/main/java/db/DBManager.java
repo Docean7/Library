@@ -3,6 +3,8 @@ package db;
 import db.Entity.Book;
 import db.Entity.Order;
 import db.Entity.User;
+import exception.DBException;
+import exception.Messages;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -51,27 +53,31 @@ public class DBManager {
     @Resource(name = "jdbc/library")
     private DataSource ds;
 
-    public static DBManager getInstance() {
+    public static synchronized DBManager getInstance() {
         if (instance == null) {
             try {
                 ctx = new InitialContext();
+                instance = new DBManager();
             } catch (NamingException e) {
-                e.printStackTrace();
+               LOG.error(Messages.ERR_LOOKUP, e);
             }
-            instance = new DBManager();
+            catch (DBException e) {
+                LOG.error(Messages.ERR_DBMANAGER_INSTANCE, e);
+            }
         }
         return instance;
     }
 
-    private DBManager() {
+    private DBManager() throws DBException{
         try {
             ds = (DataSource) ctx.lookup("java:comp/env/jdbc/library");
         } catch (NamingException e) {
-            e.printStackTrace();
+            LOG.error(Messages.ERR_DATA_SOURCE, e);
+            throw new DBException(Messages.ERR_DATA_SOURCE, e);
         }
     }
 
-    public void addNewUser(User user) {
+    public void addNewUser(User user) throws DBException{
         try (Connection conn = ds.getConnection()) {
             PreparedStatement pstm = conn.prepareStatement(INSERT_USER);
             pstm.setString(1, user.getFirstName());
@@ -85,11 +91,12 @@ public class DBManager {
             pstm.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error(Messages.ERR_ADD_USER, e);
+            throw new DBException(Messages.ERR_ADD_USER, e);
         }
     }
 
-    public boolean addBookToCatalog(Book book) {
+    public boolean addBookToCatalog(Book book) throws DBException {
 
         try (Connection conn = ds.getConnection()) {
             PreparedStatement pstm = conn.prepareStatement(INSERT_BOOK_TO_CATALOG);
@@ -104,13 +111,14 @@ public class DBManager {
             pstm.setInt(9, book.getQuantity());
             pstm.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            LOG.error(Messages.ERR_ADD_BOOK_TO_CATALOG, e);
+            throw new DBException(Messages.ERR_ADD_BOOK_TO_CATALOG, e);
+
         }
         return true;
     }
 
-    public List<Book> getCatalog() {
+    public List<Book> getCatalog() throws DBException {
         List<Book> catalog = new ArrayList<>();
         try (Connection conn = ds.getConnection()) {
             Statement stmt = conn.createStatement();
@@ -130,12 +138,13 @@ public class DBManager {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error(Messages.ERR_GET_CATALOG, e);
+            throw new DBException(Messages.ERR_GET_CATALOG, e);
         }
         return catalog;
     }
 
-    public User getUserByLogin(String login) {
+    public User getUserByLogin(String login) throws DBException {
         try (Connection conn = ds.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(FIND_USER_BY_LOGIN);
             ps.setString(1, login);
@@ -153,12 +162,13 @@ public class DBManager {
                 return user;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error(Messages.ERR_GET_USER, e);
+            throw new DBException(Messages.ERR_GET_USER, e);
         }
         return null;
     }
 
-    public boolean checkEmail(String email) {
+    public boolean checkEmail(String email) throws DBException {
         try (Connection conn = ds.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(FIND_BY_EMAIL);
             ps.setString(1, email);
@@ -167,12 +177,13 @@ public class DBManager {
                 return false;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error(Messages.ERR_CHECK_EMAIL, e);
+            throw new DBException(Messages.ERR_CHECK_EMAIL, e);
         }
         return true;
     }
 
-    public Book getBookById(int id) {
+    public Book getBookById(int id) throws DBException {
         try (Connection conn = ds.getConnection()) {
             PreparedStatement pstm = conn.prepareStatement(FIND_BOOK_BY_ID);
             pstm.setInt(1, id);
@@ -192,12 +203,13 @@ public class DBManager {
                 return book;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error(Messages.ERR_GET_BOOK, e);
+            throw new DBException(Messages.ERR_GET_BOOK, e);
         }
         return null;
     }
 
-    public boolean addBookToUser(int bookID, int userID) {
+    public boolean addBookToUser(int bookID, int userID) throws DBException {
         Connection conn = null;
         try {
             conn = ds.getConnection();
@@ -220,24 +232,24 @@ public class DBManager {
                 try {
                     conn.rollback();
                 } catch (SQLException e1) {
-                    e1.printStackTrace();
+                    LOG.error(Messages.ERR_ROLLBACK, e);
                 }
             }
-            return false;
+            LOG.error(Messages.ERR_ADD_BOOK_TO_USER,e);
+            throw new DBException(Messages.ERR_ADD_BOOK_TO_USER,e);
         } finally {
-            //conn.setAutoCommit(true);
             if(conn != null) {
                 try {
                     conn.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                   LOG.error(Messages.ERR_CLOSE_CONNECTION, e);
                 }
             }
         }
         return true;
     }
 
-    public List<Book> getBooksForUser(int id ){
+    public List<Book> getBooksForUser(int id ) throws DBException {
         ArrayList<Book> books = new ArrayList<>();
         try(Connection conn = ds.getConnection()){
             PreparedStatement pstm = conn.prepareStatement(GET_BOOKS_FOR_USER);
@@ -254,13 +266,14 @@ public class DBManager {
                 }
             }
         } catch (SQLException e){
-            e.printStackTrace();
+            LOG.error(Messages.ERR_GET_USERS_BOOKS, e);
+            throw new DBException(Messages.ERR_GET_USERS_BOOKS, e);
         }
           return books;
     }
 
 
-    public void markDelivered(boolean status, int orderId) {
+    public void markDelivered(boolean status, int orderId) throws DBException {
         try(Connection conn = ds.getConnection()){
             PreparedStatement pstm = conn.prepareStatement(UPDATE_BOOK_STATUS);
             pstm.setBoolean(1,status);
@@ -270,11 +283,12 @@ public class DBManager {
             pstm.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error(Messages.ERR_MARK_DELIVERED, e);
+            throw new DBException(Messages.ERR_MARK_DELIVERED, e);
         }
     }
 
-    public List<Order> getAllOrders(){
+    public List<Order> getAllOrders() throws DBException {
         List<Order> orders = new ArrayList<>();
         try(Connection conn = ds.getConnection()){
             Statement stmt = conn.createStatement();
@@ -293,12 +307,13 @@ public class DBManager {
                 orders.add(order);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error(Messages.ERR_GET_ALL_ORDERS,e);
+            throw new DBException(Messages.ERR_GET_ALL_ORDERS,e);
         }
         return orders;
     }
 
-    public void deleteOrder(int userId, int bookId) {
+    public void deleteOrder(int userId, int bookId) throws DBException {
         Connection conn = null;
         try{
             conn = ds.getConnection();
@@ -319,23 +334,25 @@ public class DBManager {
            // e.printStackTrace();
             if(conn != null){
                 try {
-                    conn.setAutoCommit(true);
+                    conn.rollback();
                 } catch (SQLException e1) {
-                    e1.printStackTrace();
+                    LOG.error(Messages.ERR_ROLLBACK, e);
                 }
             }
+            LOG.error(Messages.ERR_DELETE_ORDER,e);
+            throw new DBException(Messages.ERR_DELETE_ORDER,e);
         } finally {
             if(conn != null) {
                 try {
                     conn.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    LOG.error(Messages.ERR_CLOSE_CONNECTION,e);
                 }
             }
         }
     }
 
-    public boolean addOneDayOrder(String login, int bookId){
+    public boolean addOneDayOrder(String login, int bookId) throws DBException {
         Connection conn = null;
         try {
             conn = ds.getConnection();
@@ -356,39 +373,40 @@ public class DBManager {
 
             conn.commit();
         }  catch (SQLException e){
-            // e.printStackTrace();
             if(conn != null){
                 try {
-                    conn.setAutoCommit(true);
+                    conn.rollback();
                 } catch (SQLException e1) {
-                    e1.printStackTrace();
+                    LOG.error(Messages.ERR_ROLLBACK,e);
                 }
             }
-            return false;
+            LOG.error(Messages.ERR_ADD_ONE_DAY_ORDER,e);
+            throw new DBException(Messages.ERR_ADD_ONE_DAY_ORDER,e);
         } finally {
             if(conn != null) {
                 try {
                     conn.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    LOG.error(Messages.ERR_CLOSE_CONNECTION,e);
                 }
             }
         }
         return true;
     }
 
-    public void deleteBook(int book_id) {
+    public void deleteBook(int book_id) throws DBException {
         try(Connection conn = ds.getConnection()){
             PreparedStatement pstm = conn.prepareStatement(DELETE_BOOK_BY_ID);
             pstm.setInt(1,book_id);
             pstm.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error(Messages.ERR_DELETE_BOOK,e);
+            throw new DBException(Messages.ERR_DELETE_BOOK,e);
         }
     }
 
-    public void updateBook(Book book) {
+    public void updateBook(Book book) throws DBException {
         System.out.println("Updating " + book);
         try(Connection conn = ds.getConnection()){
            PreparedStatement pstm = conn.prepareStatement(UPDATE_BOOK_INFO);
@@ -404,18 +422,20 @@ public class DBManager {
             pstm.setInt(10,book.getId());
             pstm.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error(Messages.ERR_UPDATE_BOOK,e);
+            throw new DBException(Messages.ERR_UPDATE_BOOK,e);
         }
     }
 
-    public void changeUserType(int type, String login){
+    public void changeUserType(int type, String login) throws DBException {
         try(Connection conn = ds.getConnection()){
             PreparedStatement pstm = conn.prepareStatement(UPDATE_USER_TYPE);
             pstm.setInt(1,type);
             pstm.setString(2,login);
             pstm.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error(Messages.ERR_CHANGE_USER_TYPE,e );
+            throw new DBException(Messages.ERR_CHANGE_USER_TYPE,e);
         }
     }
 }

@@ -4,6 +4,9 @@ import Server.Managers.ConfigurationManager;
 import Server.Managers.RequestContent;
 import db.DBManager;
 import db.Entity.Book;
+import exception.AppException;
+import exception.DBException;
+import exception.Messages;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,14 +20,19 @@ public class GetCatalogCommand implements ActionCommand {
     private static String previousSort;
     private static int pages;
     private static boolean checkedPages;
+
     public GetCatalogCommand() {
-        allCatalog = DBManager.getInstance().getCatalog();
+        try {
+            allCatalog = DBManager.getInstance().getCatalog();
+        } catch (DBException e) {
+            LOG.error(Messages.ERR_GET_CATALOG,e);
+        }
         pages = (int)Math.ceil((double)allCatalog.size()/PAGESIZE);
 
     }
 
     @Override
-    public String execute(RequestContent requestContent) {
+    public String execute(RequestContent requestContent) throws AppException {
         if(!checkedPages){
             requestContent.addSessionAttribute("pages", pages);
         }

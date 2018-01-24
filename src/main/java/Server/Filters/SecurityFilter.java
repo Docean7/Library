@@ -1,6 +1,8 @@
 package Server.Filters;
 
 import db.UserTypeEnum;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -11,6 +13,7 @@ import java.io.IOException;
 
 @WebFilter(filterName = "SecurityFilter", urlPatterns = {"/jsp/requireAuth/*"}, initParams = { @WebInitParam(name = "INDEX_PATH", value = "/index.jsp") })
 public class SecurityFilter implements Filter {
+    private static final Logger LOG = LogManager.getLogger(SecurityFilter.class);
     private String indexPath;
     public void destroy() {
     }
@@ -20,9 +23,9 @@ public class SecurityFilter implements Filter {
         HttpServletResponse httpResponse = (HttpServletResponse) resp;
 
         int type = Integer.parseInt(String.valueOf(httpRequest.getSession().getAttribute("userType")));
-        System.out.println(type);
+        LOG.info("Usertype is " + type);
         if(UserTypeEnum.UNREGISTERED_USER.value() == type){
-            System.out.println("redirecting");
+            LOG.info("Not authorised user. Redirecting");
             httpResponse.sendRedirect(httpRequest.getContextPath() + indexPath);
         }
 // переход на заданную страницу

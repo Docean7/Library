@@ -1,6 +1,8 @@
 package Server.Filters;
 
 import db.UserTypeEnum;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -11,6 +13,7 @@ import java.io.IOException;
 
 @WebFilter(filterName = "LibrarianFilter", urlPatterns = {"/jsp/requireAuth/librarian/*"}, initParams = { @WebInitParam(name = "CATALOG", value = "/jsp/requireAuth/catalog.jsp") })
 public class LibrarianFilter implements Filter {
+    private static final Logger LOG = LogManager.getLogger(LibrarianFilter.class);
     private String catalogPath;
     public void destroy() {
     }
@@ -22,7 +25,7 @@ public class LibrarianFilter implements Filter {
         int type = Integer.parseInt(String.valueOf(httpRequest.getSession().getAttribute("userType")));
 
         if(UserTypeEnum.LIBRARIAN.value() != type){
-            System.out.println("redirecting");
+            LOG.info("Usertype is not 'librarian'. Redirecting");
             httpResponse.sendRedirect(httpRequest.getContextPath() + catalogPath);
         }
         chain.doFilter(req, resp);

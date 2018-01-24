@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: Денис
@@ -9,15 +10,9 @@
 <%@ page isErrorPage="true" %>
 <html>
 <head>
-    <title>Error page</title>
+    <title>Error occured</title>
 </head>
 <body>
-Request from ${pageContext.errorData.requestURI} is failed
-<br/>
-Servlet name or type: ${pageContext.errorData.servletName}
-<br/>
-Status code: ${pageContext.errorData.statusCode}
-<br/>
-Exception: ${pageContext.errorData.throwable}
+<c:out value="${requestScope.errorMessage}"/>
 </body>
 </html>

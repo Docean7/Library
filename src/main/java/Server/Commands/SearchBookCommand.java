@@ -5,6 +5,7 @@ import Server.Managers.ConfigurationManager;
 import Server.Managers.RequestContent;
 import db.DBManager;
 import db.Entity.Book;
+import exception.AppException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
@@ -18,7 +19,7 @@ public class SearchBookCommand implements ActionCommand {
     private static final Logger LOG = LogManager.getLogger(SearchBookCommand.class);
     public static final String QUERY = "query";
     @Override
-    public String execute(RequestContent requestContent) {
+    public String execute(RequestContent requestContent) throws AppException {
         IndexSearcher searcher = null;
         String page = ConfigurationManager.getProperty("path.page.catalog");
 

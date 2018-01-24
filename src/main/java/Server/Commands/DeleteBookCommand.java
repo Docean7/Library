@@ -4,6 +4,7 @@ import Lucene.WriteIndex;
 import Server.Managers.ConfigurationManager;
 import Server.Managers.RequestContent;
 import db.DBManager;
+import exception.AppException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -14,7 +15,7 @@ import org.apache.lucene.search.Query;
 public class DeleteBookCommand implements ActionCommand {
     private static final Logger LOG = LogManager.getLogger(DeleteBookCommand.class);
     @Override
-    public String execute(RequestContent requestContent) {
+    public String execute(RequestContent requestContent) throws AppException {
         String page = ConfigurationManager.getProperty("path.page.admin.acc");
         int bookId = Integer.parseInt(requestContent.getParameter("book_id"));
         DBManager.getInstance().deleteBook(bookId);

@@ -23,10 +23,10 @@
             <li role="presentation" class="active"><a href="#">Profile</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <form action="/controller" method="post">
+            <li><form action="/controller" method="post">
                 <input type="hidden" name="command" value="Logout">
                 <button type="submit" class="btn btn-danger navbar-btn">Logout</button>
-            </form>
+            </form></li>
         </ul>
     </div>
 </nav>

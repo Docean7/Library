@@ -5,6 +5,7 @@ import Server.Managers.ConfigurationManager;
 import Server.Managers.RequestContent;
 import db.DBManager;
 import db.Entity.Book;
+import exception.AppException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
@@ -17,7 +18,7 @@ import static Lucene.WriteIndex.createBookDocument;
 public class AddBookToCatalogCommand implements ActionCommand {
     private static final Logger LOG = LogManager.getLogger(AddBookToCatalogCommand.class);
     @Override
-    public String execute(RequestContent requestContent) {
+    public String execute(RequestContent requestContent) throws AppException {
         String page = ConfigurationManager.getProperty("path.page.admin.acc");
         Book book = getBookFromRequest(requestContent);
         DBManager.getInstance().addBookToCatalog(book);

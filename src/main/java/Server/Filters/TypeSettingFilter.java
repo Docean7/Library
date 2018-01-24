@@ -1,6 +1,8 @@
 package Server.Filters;
 
 import db.UserTypeEnum;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -9,6 +11,7 @@ import java.io.IOException;
 
 @WebFilter(filterName = "TypeSettingFilter", urlPatterns = {"/*"})
 public class TypeSettingFilter implements Filter {
+    private static final Logger LOG = LogManager.getLogger(TypeSettingFilter.class);
     public void destroy() {
     }
 
@@ -16,7 +19,7 @@ public class TypeSettingFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest)req;
         if(request.getSession().getAttribute("userType") == null){
             request.getSession().setAttribute("userType", UserTypeEnum.UNREGISTERED_USER.value());
-            System.out.println("Setting guest type");
+            LOG.info("Setting guest type");
         }
         chain.doFilter(req, resp);
     }

@@ -5,6 +5,7 @@ import Server.Commands.ActionFactory;
 import Server.Managers.ConfigurationManager;
 import Server.Managers.MessageManager;
 import Server.Managers.RequestContent;
+import exception.AppException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -41,8 +42,13 @@ public class Controller extends HttpServlet {
 /*
 * вызов реализованного метода execute() и передача параметров
 * классу-обработчику конкретной команды
-*/
-        page = command.execute(requestContent);
+*/      try {
+            page = command.execute(requestContent);
+        } catch (AppException e){
+            request.setAttribute("errorMessage", e.getMessage());
+            page = ConfigurationManager.getProperty("path.page.appError");
+            LOG.debug("Sending on ERROR PAGE");
+        }
         requestContent.insertAttributes(request);
 
 // метод возвращает страницу ответа
@@ -54,7 +60,7 @@ public class Controller extends HttpServlet {
             dispatcher.forward(request, response);
         } else {
 // установка страницы c cообщением об ошибке
-            page = ConfigurationManager.getProperty("path.page.index");
+            page = ConfigurationManager.getProperty("path.page.error");
             request.getSession().setAttribute("nullPage",
                     MessageManager.getProperty("message.nullpage"));
             LOG.debug("Sending on ERROR PAGE");

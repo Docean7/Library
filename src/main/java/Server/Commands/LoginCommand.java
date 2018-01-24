@@ -6,6 +6,7 @@ import db.DBManager;
 import db.Entity.Order;
 import db.Entity.User;
 import db.UserTypeEnum;
+import exception.AppException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,7 +24,7 @@ public class LoginCommand implements ActionCommand {
     private static final int WRONG_PASSWORD = 2;
 
     @Override
-    public String execute(RequestContent requestContent) {
+    public String execute(RequestContent requestContent) throws AppException {
         String page = ConfigurationManager.getProperty("path.page.login");
 // извлечение из запроса логина и пароля
         String login = requestContent.getParameter(PARAM_NAME_LOGIN);
@@ -49,7 +50,6 @@ public class LoginCommand implements ActionCommand {
                 requestContent.addSessionAttribute("bookList", dbManager.getBooksForUser(id));
                 int userType = user.getUserType();
                 requestContent.addSessionAttribute("userType", userType);
-                LOG.info("User type is " + userType);
 
                 if(userType == UserTypeEnum.LIBRARIAN.value()){
                     System.out.println("Adding orders to session");
