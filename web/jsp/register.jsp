@@ -13,20 +13,17 @@
 <head>
     <title>Register</title>
     <link rel="stylesheet" href="<c:url value="../css/register.css"/> "/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
 </head>
 <body>
 <div class="container">
 
-    <form role="form" class="well form-horizontal" id="contact-form" name="registration">
+    <form role="form" class="well form-horizontal" id="contact-form" name="registration" >
         <fieldset>
             <!-- Form Name -->
             <legend><h2><b>Registration Form</b></h2></legend>
@@ -105,7 +102,7 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
                         <input name="email" id="email" maxlength="32" placeholder="E-Mail Address" class="form-control" value="${fn:escapeXml(sessionScope.checkemail)}" type="email"
-                            required>
+                           required >
                     </div>
                     <div class="s-error"> ${sessionScope.errorEmail}</div>
                     <c:remove var="errorEmail" scope="session"/>
@@ -127,10 +124,7 @@
 
             <!-- Select Basic -->
 
-            <!-- Success message -->
-            <div class="alert alert-success" role="alert" id="success_message">Success <i
-                    class="glyphicon glyphicon-thumbs-up"></i> Success!.
-            </div>
+
 
             <!-- Button -->
 
@@ -147,6 +141,13 @@
         </fieldset>
     </form>
 </div>
-<script src="../js/registration.js"></script>
+<script
+        src="https://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="${pageContext.request.contextPath}/js/registration.js"></script>
+
 </body>
 </html>

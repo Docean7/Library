@@ -53,13 +53,15 @@ public class ControllerFilter implements Filter {
 
     private boolean accessAllowed(ServletRequest request){
         HttpServletRequest req = (HttpServletRequest) request;
-        String command = req.getParameter("command").toUpperCase();
+        String command = req.getParameter("command");
+
 
         if (command == null || command.isEmpty()) {
             return false;
         }
-
+        command = command.toUpperCase();
         if (outOfControl.contains(command)) {
+            System.out.println("Out of control");
             return true;
         }
 

@@ -13,4 +13,6 @@ public class RegistrationLogic {
       return dbManager.checkEmail(email);
     }
 
+
+
 }

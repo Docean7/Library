@@ -25,6 +25,7 @@ public class Controller extends HttpServlet {
     private static final Logger LOG = LogManager.getLogger(Controller.class);
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
+        System.out.println("Hello");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

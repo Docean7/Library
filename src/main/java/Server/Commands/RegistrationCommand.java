@@ -8,8 +8,12 @@ import exception.AppException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.regex.Pattern;
+
 public class RegistrationCommand implements ActionCommand {
     private static final Logger LOG = LogManager.getLogger(RegistrationCommand.class);
+    public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
+            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
     @Override
     public String execute(RequestContent requestContent) throws AppException {
         String login = requestContent.getParameter("user_name");
@@ -40,6 +44,7 @@ public class RegistrationCommand implements ActionCommand {
             requestContent.addSessionAttribute("errorEmail", "Email is already in use");
             requestContent.setError(true);
         }
+
         if(loginIsAvailable && emailIsAvailable) {
             User user = new User();
             user.setFirstName(requestContent.getParameter("first_name"));
@@ -54,4 +59,13 @@ public class RegistrationCommand implements ActionCommand {
         }
         return page;
     }
+
+//    public static boolean checkLength(String arg, int min, int max){
+//        return arg.length()>=min && arg.length() <= max;
+//    }
+//
+//    public static boolean checkEmail(String email){
+//       Matcher matcher =  VALID_EMAIL_ADDRESS_REGEX.matcher(email);
+//       return matcher.find();
+//    }
 }
