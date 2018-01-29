@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 
 public class DeleteOrderCommand implements ActionCommand{
-    private static final Logger LOG = LogManager.getLogger(DeleteOrderCommand.class);
+    private static final Logger LOG = LogManager.getLogger(DeleteOrderCommand.class.getName());
     @Override
     public String execute(RequestContent requestContent) throws AppException {
         String page = ConfigurationManager.getProperty("path.page.librarian.acc");

@@ -13,7 +13,7 @@ import java.io.IOException;
 
 @WebFilter(filterName = "LibrarianFilter", urlPatterns = {"/jsp/requireAuth/librarian/*"}, initParams = { @WebInitParam(name = "CATALOG", value = "/jsp/requireAuth/catalog.jsp") })
 public class LibrarianFilter implements Filter {
-    private static final Logger LOG = LogManager.getLogger(LibrarianFilter.class);
+    private static final Logger LOG = LogManager.getLogger(LibrarianFilter.class.getName());
     private String catalogPath;
     public void destroy() {
     }

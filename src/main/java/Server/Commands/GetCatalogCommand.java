@@ -14,7 +14,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class GetCatalogCommand implements ActionCommand {
-    private static final Logger LOG = LogManager.getLogger(GetCatalogCommand.class);
+    private static final Logger LOG = LogManager.getLogger(GetCatalogCommand.class.getName());
     private static final int PAGESIZE = 6;
     private static List<Book> allCatalog;
     private static String previousSort;

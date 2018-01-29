@@ -20,6 +20,7 @@
         <!-- Root Logger -->
         <Root level="all">
             <AppenderRef ref="Console"/>
+            <AppenderRef ref="LogFile"/>
         </Root>
     </Loggers>
 

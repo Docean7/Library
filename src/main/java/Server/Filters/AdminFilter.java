@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 @WebFilter(filterName = "LibrarianFilter", urlPatterns = {"/jsp/requireAuth/admin/*"}, initParams = { @WebInitParam(name = "CATALOG", value = "/jsp/requireAuth/catalog.jsp") })
 public class AdminFilter implements Filter {
-    private static final Logger LOG = LogManager.getLogger(AdminFilter.class);
+    private static final Logger LOG = LogManager.getLogger(AdminFilter.class.getName());
     private String catalogPath;
     public void destroy() {
     }

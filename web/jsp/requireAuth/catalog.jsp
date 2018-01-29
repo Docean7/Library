@@ -10,12 +10,15 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="ctg" uri="customtags" %>
 
-<fmt:setBundle basename="resources.pagecontent" var="rb"/>
+<c:set var="curlocale" value="${sessionScope.locale}"/>
+<fmt:setLocale value="${curlocale}" scope="session" />
+<fmt:setBundle basename="pagecontent" />
+
 <c:set var="bookList" value="${sessionScope.get('bookList')}"/>
 <c:set var="user_id" value="${sessionScope.get('userId')}"/>
 <html>
 <head>
-    <title>Catalog</title>
+    <title><fmt:message key="main.catalog"/></title>
     <link rel="stylesheet" type="text/css" href="<c:url value="/css/catalog.css"/>">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
@@ -26,26 +29,26 @@
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <ul class="nav navbar-nav">
-            <li role="presentation" class="active"><a href="#">Catalog</a></li>
+            <li role="presentation" class="active"><a href="#"><fmt:message key="main.catalog"/></a></li>
             <c:set var="userType" value="${sessionScope.userType}"/>
             <c:choose>
                 <c:when test="${userType == 2}">
-                    <li role="presentation"><a href="<c:url value="/jsp/requireAuth/librarian/librarianAccount.jsp"/> ">Profile</a>
+                    <li role="presentation"><a href="<c:url value="/jsp/requireAuth/librarian/librarianAccount.jsp"/> "><fmt:message key="main.profile"/></a>
                     </li>
                 </c:when>
                 <c:when test="${userType == 3}">
                     <li role="presentation"><a
-                            href="<c:url value="/jsp/requireAuth/admin/adminAccount.jsp"/> ">Profile</a></li>
+                            href="<c:url value="/jsp/requireAuth/admin/adminAccount.jsp"/> "><fmt:message key="main.profile"/></a></li>
                 </c:when>
                 <c:otherwise>
-                    <li role="presentation"><a href="<c:url value="/jsp/requireAuth/account.jsp"/> ">Profile</a></li>
+                    <li role="presentation"><a href="<c:url value="/jsp/requireAuth/account.jsp"/> "><fmt:message key="main.profile"/></a></li>
                 </c:otherwise>
             </c:choose>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li><form action="/controller" method="post">
                 <input type="hidden" name="command" value="Logout">
-                <button type="submit" class="btn btn-danger navbar-btn">Logout</button>
+                <button type="submit" class="btn btn-danger navbar-btn"><fmt:message key="main.logout"/></button>
             </form></li>
         </ul>
     </div>
@@ -58,7 +61,7 @@
                 <div id="custom-search-input">
                     <div class="input-group col-md-12">
                         <input type="text" class="form-control input-lg" name="query"
-                               placeholder="Search by title or author" required/>
+                               placeholder="<fmt:message key="search.placeholder"/>" required/>
                         <span class="input-group-btn">
                             <input type="hidden" name="command" value="searchbook"/>
                         <button class="btn btn-info btn-lg" type="submit">
@@ -75,11 +78,11 @@
 </form>
 <form method="post" name="sortform" action="/controller">
     <select name="sort">
-        <option value="name" ${sessionScope.name}>Sort by name</option>
-        <option value="author" ${sessionScope.author}>Sort by author</option>
-        <option value="rating" ${sessionScope.rating}>Sort by rating</option>
-        <option value="year" ${sessionScope.year}>Sort by year</option>
-        <option value="publisher" ${sessionScope.publisher}>Sort by publisher</option>
+        <option value="name" ${sessionScope.name}><fmt:message key="sort.name"/></option>
+        <option value="author" ${sessionScope.author}><fmt:message key="sort.author"/></option>
+        <option value="rating" ${sessionScope.rating}><fmt:message key="sort.rating"/></option>
+        <option value="year" ${sessionScope.year}><fmt:message key="sort.year"/></option>
+        <option value="publisher" ${sessionScope.publisher}><fmt:message key="sort.pubisher"/></option>
     </select>
 
     <input type="hidden" name="command" value="getcatalog"/>
@@ -90,15 +93,15 @@
 
 <table class="table table-striped">
     <tr>
-        <th>Title</th>
-        <th>Author</th>
-        <th>Genre</th>
-        <th>Category</th>
-        <th>Publisher</th>
-        <th>Country</th>
-        <th>Year</th>
-        <th>Rating</th>
-        <th>Order</th>
+        <th><fmt:message key="table.title"/></th>
+        <th><fmt:message key="table.author"/></th>
+        <th><fmt:message key="table.genre"/></th>
+        <th><fmt:message key="table.category"/></th>
+        <th><fmt:message key="table.publisher"/></th>
+        <th><fmt:message key="table.country"/></th>
+        <th><fmt:message key="table.year"/></th>
+        <th><fmt:message key="table.rating"/></th>
+        <th><fmt:message key="table.order"/></th>
     </tr>
     <c:forEach var="book" items="${sessionScope.get('catalog')}">
         <tr>
@@ -116,7 +119,7 @@
                     <input type="hidden" name="user_id" value="${sessionScope.userId}"/>
                     <input type="hidden" name="book_id" value="${book.id}"/>
                     <button type="submit"
-                            class="btn <c:if test="${ctg:checkPresence(bookList, book.id)}">disabled</c:if>">Add book
+                            class="btn <c:if test="${ctg:checkPresence(bookList, book.id)}">disabled</c:if>"><fmt:message key="table.orderbook"/>
                     </button>
                 </form>
             </td>

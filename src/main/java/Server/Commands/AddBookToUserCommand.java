@@ -8,7 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class AddBookToUserCommand implements ActionCommand{
-    private static final Logger LOG = LogManager.getLogger(AddBookToUserCommand.class);
+    private static final Logger LOG = LogManager.getLogger(AddBookToUserCommand.class.getName());
     @Override
     public String execute(RequestContent requestContent) throws AppException {
         String page = ConfigurationManager.getProperty("path.page.catalog");

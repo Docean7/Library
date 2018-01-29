@@ -16,7 +16,7 @@ import org.apache.lucene.search.TopDocs;
 import java.util.ArrayList;
 
 public class SearchBookCommand implements ActionCommand {
-    private static final Logger LOG = LogManager.getLogger(SearchBookCommand.class);
+    private static final Logger LOG = LogManager.getLogger(SearchBookCommand.class.getName());
     public static final String QUERY = "query";
     @Override
     public String execute(RequestContent requestContent) throws AppException {

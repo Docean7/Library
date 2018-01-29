@@ -11,7 +11,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 
 public class OneDayOrderCommand implements ActionCommand {
-    private static final Logger LOG = LogManager.getLogger(OneDayOrderCommand.class);
+    private static final Logger LOG = LogManager.getLogger(OneDayOrderCommand.class.getName());
     @Override
     public String execute(RequestContent requestContent) throws AppException {
         String page = ConfigurationManager.getProperty("path.page.librarian.acc");

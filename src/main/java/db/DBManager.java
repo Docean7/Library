@@ -21,7 +21,7 @@ import java.util.List;
 
 
 public class DBManager {
-    private static final Logger LOG = LogManager.getLogger(DBManager.class);
+    private static final Logger LOG = LogManager.getLogger(DBManager.class.getName());
     //CONSTANTS
     private static final String INSERT_USER = "INSERT INTO users " +
             "(firstname, lastname, login, password, email, telnumber) VALUES (?, ?, ?, ?, ?, ?)";

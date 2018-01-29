@@ -11,7 +11,7 @@ import java.io.IOException;
 
 @WebFilter(filterName = "TypeSettingFilter", urlPatterns = {"/*"})
 public class TypeSettingFilter implements Filter {
-    private static final Logger LOG = LogManager.getLogger(TypeSettingFilter.class);
+    private static final Logger LOG = LogManager.getLogger(TypeSettingFilter.class.getName());
     public void destroy() {
     }
 

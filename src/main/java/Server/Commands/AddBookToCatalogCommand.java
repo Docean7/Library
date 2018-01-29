@@ -16,7 +16,7 @@ import java.io.IOException;
 import static Lucene.WriteIndex.createBookDocument;
 
 public class AddBookToCatalogCommand implements ActionCommand {
-    private static final Logger LOG = LogManager.getLogger(AddBookToCatalogCommand.class);
+    private static final Logger LOG = LogManager.getLogger(AddBookToCatalogCommand.class.getName());
     @Override
     public String execute(RequestContent requestContent) throws AppException {
         String page = ConfigurationManager.getProperty("path.page.admin.acc");

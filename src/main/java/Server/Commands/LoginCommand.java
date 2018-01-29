@@ -14,7 +14,7 @@ import java.util.List;
 
 public class LoginCommand implements ActionCommand {
 //    private static final Logger rootLogger = LogManager.getRootLogger();
-    private static final Logger LOG = LogManager.getLogger(LoginCommand.class);
+    private static final Logger LOG = LogManager.getLogger(LoginCommand.class.getName());
 
     private static final String PARAM_NAME_LOGIN = "login";
     private static final String PARAM_NAME_PASSWORD = "password";

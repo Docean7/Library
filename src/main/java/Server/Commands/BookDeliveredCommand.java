@@ -11,7 +11,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 
 public class BookDeliveredCommand implements ActionCommand {
-    private static final Logger LOG = LogManager.getLogger(BookDeliveredCommand.class);
+    private static final Logger LOG = LogManager.getLogger(BookDeliveredCommand.class.getName());
     @Override
     public String execute(RequestContent requestContent) throws AppException {
         String page = ConfigurationManager.getProperty("path.page.librarian.acc");

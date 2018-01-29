@@ -6,7 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class ActionFactory {
-    private static final Logger LOG = LogManager.getLogger(ActionFactory.class);
+    private static final Logger LOG = LogManager.getLogger(ActionFactory.class.getName());
     public ActionCommand defineCommand(RequestContent requestContent) {
         ActionCommand current = new EmptyCommand();
 

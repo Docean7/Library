@@ -13,13 +13,13 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.*;
 
-@WebFilter(filterName = "ControllerFilter", urlPatterns = {"/controller"}, initParams = {@WebInitParam(name = "admin", value = "CHANGETYPE FINDBOOK EDITBOOK DELETEBOOK ADDBOOK"),
-@WebInitParam(name = "librarian", value = "ONEDAYORDER BOOKDELIVERED DELETEORDER"),
-@WebInitParam(name = "client", value = "ADDBOOKTOUSER SEARCHBOOK DELETEORDER GETCATALOG"),
+@WebFilter(filterName = "ControllerFilter", urlPatterns = {"/controller"}, initParams = {@WebInitParam(name = "admin", value = "CHANGETYPE FINDBOOK EDITBOOK DELETEBOOK ADDBOOK CHANGELOCALE"),
+@WebInitParam(name = "librarian", value = "ONEDAYORDER BOOKDELIVERED DELETEORDER CHANGELOCALE"),
+@WebInitParam(name = "client", value = "ADDBOOKTOUSER SEARCHBOOK DELETEORDER GETCATALOG CHANGELOCALE"),
 @WebInitParam(name = "out-of-control", value = "LOGIN REGISTER LOGOUT")})
 public class ControllerFilter implements Filter {
 
-    private static final Logger LOG = LogManager.getLogger(ControllerFilter.class);
+    private static final Logger LOG = LogManager.getLogger(ControllerFilter.class.getName());
     private Map<Integer, List<String>> accessMap = new HashMap<>();
     private List<String> outOfControl = new ArrayList<>();
 

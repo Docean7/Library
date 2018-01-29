@@ -71,6 +71,11 @@ public enum CommandEnum {
         {
             this.command = new ChangeTypeCommand();
         }
+    },
+    CHANGELOCALE {
+        {
+            this.command = new ChangeLocaleCommand();
+        }
     }
     ;
     ActionCommand command;

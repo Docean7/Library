@@ -13,7 +13,7 @@ import java.io.IOException;
 
 @WebFilter(filterName = "SecurityFilter", urlPatterns = {"/jsp/requireAuth/*"}, initParams = { @WebInitParam(name = "INDEX_PATH", value = "/index.jsp")})
 public class SecurityFilter implements Filter {
-    private static final Logger LOG = LogManager.getLogger(SecurityFilter.class);
+    private static final Logger LOG = LogManager.getLogger(SecurityFilter.class.getName());
     private String indexPath;
     public void destroy() {
     }

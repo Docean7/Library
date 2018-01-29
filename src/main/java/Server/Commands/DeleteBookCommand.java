@@ -13,7 +13,7 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 
 public class DeleteBookCommand implements ActionCommand {
-    private static final Logger LOG = LogManager.getLogger(DeleteBookCommand.class);
+    private static final Logger LOG = LogManager.getLogger(DeleteBookCommand.class.getName());
     @Override
     public String execute(RequestContent requestContent) throws AppException {
         String page = ConfigurationManager.getProperty("path.page.admin.acc");

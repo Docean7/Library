@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 
 
 public class EditBookCommand implements ActionCommand{
-    private static final Logger LOG = LogManager.getLogger(EditBookCommand.class);
+    private static final Logger LOG = LogManager.getLogger(EditBookCommand.class.getName());
     @Override
     public String execute(RequestContent requestContent) throws AppException {
         String page = ConfigurationManager.getProperty("path.page.admin.acc");
